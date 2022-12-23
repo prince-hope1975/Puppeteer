@@ -5,7 +5,12 @@ import puppeteer from "puppeteer";
   const browser = await puppeteer.launch({
     headless: true,
 
-    args: ["--no-sandbox", ],
+    args: [
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+      "--disable-setuid-sandbox",
+    ],
   });
   const page = await browser.newPage();
 
