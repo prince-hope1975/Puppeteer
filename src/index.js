@@ -2,11 +2,13 @@ import { writeFile } from "fs";
 import puppeteer from "puppeteer";
 (async () => {
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
         // args: ["--no-sandbox", ],
     });
     const page = await browser.newPage();
-    await page.goto("https://www.nftexplorer.app/collection/algoatspfp");
+    page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
+    await page.goto("https://www.nftexplorer.app/collection/algoatspfp/");
+    console.log({ res: await page.content() });
     page.on("load", async () => {
         console.log("page loaded");
     });
