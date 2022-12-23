@@ -1,0 +1,11 @@
+{
+  "name": "Puppeteer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^18.11.17",
+    "puppeteer": "^19.4.1"
+  }
+}
