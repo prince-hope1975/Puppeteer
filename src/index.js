@@ -1,8 +1,8 @@
-import { writeFile } from "fs";
 import puppeteer from "puppeteer";
 (async () => {
     const browser = await puppeteer.launch({
         headless: true,
+        timeout: 0,
         args: [
             "--no-sandbox",
             "--disable-dev-shm-usage",
@@ -14,9 +14,6 @@ import puppeteer from "puppeteer";
     page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
     await page.goto("https://www.nftexplorer.app/collection/algoatspfp/");
     console.log({ res: await page.content() });
-    page.on("load", async () => {
-        console.log("page loaded");
-    });
     //   await page.goto("https://developers.google.com/web/");
     await new Promise((resolve) => setTimeout(resolve, 10000));
     // Type into search box.
@@ -26,14 +23,17 @@ import puppeteer from "puppeteer";
     const allResultsSelector = ".display-6";
     // await page.waitForSelector(allResultsSelector);
     const va = await page.$$(allResultsSelector);
-    writeFile("index.html", await page.content(), (err) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-    }
-    //file written successfully
-    );
+    // writeFile(
+    //   "index.html",
+    //   await page.content(),
+    //   (err) => {
+    //     if (err) {
+    //       console.error(err);
+    //       return;
+    //     }
+    //   }
+    //   //file written successfully
+    // );
     console.log({ va });
     // Wait for the results page to load and display the results.
     // Extract the results from the page.
