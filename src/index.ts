@@ -4,7 +4,7 @@ import puppeteer from "puppeteer";
 (async () => {
   const browser = await puppeteer.launch({
     headless: true,
-
+    timeout: 0,
     args: [
       "--no-sandbox",
       "--disable-dev-shm-usage",
@@ -21,9 +21,6 @@ import puppeteer from "puppeteer";
 
   console.log({ res: await page.content() });
 
-  page.on("load", async () => {
-    console.log("page loaded");
-  });
   //   await page.goto("https://developers.google.com/web/");
   await new Promise((resolve) => setTimeout(resolve, 10000));
   // Type into search box.
@@ -34,17 +31,17 @@ import puppeteer from "puppeteer";
   const allResultsSelector = ".display-6";
   // await page.waitForSelector(allResultsSelector);
   const va = await page.$$(allResultsSelector);
-  writeFile(
-    "index.html",
-    await page.content(),
-    (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    }
-    //file written successfully
-  );
+  // writeFile(
+  //   "index.html",
+  //   await page.content(),
+  //   (err) => {
+  //     if (err) {
+  //       console.error(err);
+  //       return;
+  //     }
+  //   }
+  //   //file written successfully
+  // );
   console.log({ va });
   // Wait for the results page to load and display the results.
 
