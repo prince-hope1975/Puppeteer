@@ -1,0 +1,1659 @@
+#pragma version 8
+// resource: R_Txn
+txn ApplicationID
+bz alloc
+byte base64()
+app_global_get
+dup
+int 0
+extract_uint64
+store 1 // GV_currentStep :: UInt
+int 8
+extract_uint64
+store 2 // GV_currentTime :: UInt
+byte base64(AA==)
+app_global_get
+byte base64(AQ==)
+app_global_get
+concat
+preamble:
+pushbytess base64(Al90xw==) base64(DbOGvA==) base64(E25XOw==) base64(GndC5Q==) base64(IoRMJg==) base64(KTen9g==) base64(KYtaEA==) base64(MxobPg==) base64(Pvlimg==) base64(SCT5Ag==) base64(buR2FA==) base64(eErZNw==) base64(ev7IbQ==) base64(x8Kc1Q==) base64(3lcEZA==) base64(7Ubbpg==) base64(8yd4BA==) base64(+W9s4A==) base64(+XMOCw==) base64(+q7IsA==)
+txna ApplicationArgs 0
+match Admin_deposit_uiSkAp__3jDeqDlb0Iah80RVTPslE1VoL8cnd_zuYrZd0_ User_claim_uint6EFYiHKImYuclUWdT_OqJXxi0EzoEL6HddbgecS2SktE_ Info_opted_addre0ExNsQ1F4ovmZnD_SASEmwURNs0YuTWn5SnO2OIv_ts_ _reachp_0 Info_Admins_addr0DMX_X6CiwvrzEQOGnkmxdCO8TJN3oC9WXIduVQfFmc_ User_optin__voidlozpJcHjwgp4Se3UDX_jUs2IgQys2Ct8vq___hhb2Qw_ Info_totalAlloca8pNHPNW4vyj_Ma4Q0kb_xQ9A1Kx_OOL8fhtRXc62UWo_ Info_userReward_vNOekaBJSVVT9SsT1g5r8hPihhN_SUF0U7saJaJG79E_ Info_balance__uivWc87iXmynsa6ppZhrutwHED7ui_erWZe1cwSzUO39o_ Info_totalAmountZtqoKUO8GgAmNo3p4k7c_9fE5HNC73q9IrEhcfVzjpw_ Admin_endContracE7DLWCH8tMMv4VrS88Hnec_dgZoJp6sAfRHQUf4BT2s_ Info_totalOptedIL_NQZYqqj0CfMPdZptM5dxLFljQfVQPy8pQwDBBi7ew_ Info_totalClaime84VuZQ4BUNEY8JNt5r8nQoV6EdCsKQzs_R6G0oEysBU_ Info_claimed_add7MO6HKJ9bJy4qy7woENXDxwhXNgYLtL3ao_EF0qEj6U_ _reachp_2 Admin_setReward_PHCjanzSyGZtsijXVshoYvWiRg2pWEwShMTHIlrErys_ Admin_revokeAdmiRjqcjTaVeWg58LlsiKwhrEIoffHOKMIwWvsLQ_IKx_w_ Info_totalReward_ukWfT_nIxKsnB0f__Sk3mUJbAyt9LingIzMLe19kp0_ Admin_editUserRe9OI3lm4g_nP_iEU4sKpCqxlrTvUcVAhRSN_JL0bHQg4_ Admin_addAdmin_aJA_q4KM4PooYe5_nsTCLYbtNXo_RdPWqFyKODNGgBnM_
+errl:
+err
+Admin_addAdmin_aJA_q4KM4PooYe5_nsTCLYbtNXo_RdPWqFyKODNGgBnM_:
+txna ApplicationArgs 1
+store 11 // v10310
+_reacha_Admin_addAdmin:
+int 8
+bzero
+byte base64(AA==)
+load 11 // v10310
+concat
+int 16
+bzero
+concat
+concat
+store 11 // v10366
+_reachi_2:
+int 3
+load 1 // GV_currentStep :: UInt
+==
+assert
+callsub l2_LF_svsLoad_3
+load 11 // v10366
+int 0
+extract_uint64
+store 12 // v10365
+load 11 // v10366
+extract 8 49
+store 13 // .fork177.msg/2361
+byte base64(VQtlgw==)
+load 12 // v10365
+itob
+concat
+load 13 // .fork177.msg/2361
+concat
+log // up to 61 bytes
+// ^ log: "_reach_e2" [v10365,.fork177.msg/2361] "_reach_e2(uint64,(byte,byte[48]))"
+load 12 // v10365
+callsub l5_LF_timeCheck
+load 13 // .fork177.msg/2361
+int 0
+getbyte
+switch l7_Admin_addAdmin0_177 l8_Admin_deposit0_177 l9_Admin_editUserReward0_177 l10_Admin_endContractAndTransfer0_177 l11_Admin_revokeAdmin0_177 l12_Admin_setReward0_177 l13_User_claim0_177 l14_User_optin0_177
+b errl
+Admin_deposit_uiSkAp__3jDeqDlb0Iah80RVTPslE1VoL8cnd_zuYrZd0_:
+txna ApplicationArgs 1
+btoi
+store 11 // v10316
+_reacha_Admin_deposit:
+int 8
+bzero
+byte base64(AQ==)
+load 11 // v10316
+itob
+concat
+int 40
+bzero
+concat
+concat
+store 11 // v10366
+b _reachi_2
+Admin_editUserRe9OI3lm4g_nP_iEU4sKpCqxlrTvUcVAhRSN_JL0bHQg4_:
+txna ApplicationArgs 1
+txna ApplicationArgs 2
+btoi
+store 11 // v10323
+store 12 // v10322
+_reacha_Admin_editUserReward:
+int 8
+bzero
+byte base64(Ag==)
+load 12 // v10322
+load 11 // v10323
+itob
+concat
+concat
+int 8
+bzero
+concat
+concat
+store 11 // v10366
+b _reachi_2
+Admin_endContracE7DLWCH8tMMv4VrS88Hnec_dgZoJp6sAfRHQUf4BT2s_:
+_reacha_Admin_endContractAndTransfer:
+byte base64(AAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA)
+store 11 // v10366
+b _reachi_2
+Admin_revokeAdmiRjqcjTaVeWg58LlsiKwhrEIoffHOKMIwWvsLQ_IKx_w_:
+txna ApplicationArgs 1
+store 11 // v10334
+_reacha_Admin_revokeAdmin:
+int 8
+bzero
+byte base64(BA==)
+load 11 // v10334
+concat
+int 16
+bzero
+concat
+concat
+store 11 // v10366
+b _reachi_2
+Admin_setReward_PHCjanzSyGZtsijXVshoYvWiRg2pWEwShMTHIlrErys_:
+txna ApplicationArgs 1
+txna ApplicationArgs 2
+btoi
+txna ApplicationArgs 3
+btoi
+store 11 // v10342
+store 12 // v10341
+store 13 // v10340
+_reacha_Admin_setReward:
+int 8
+bzero
+byte base64(BQ==)
+load 13 // v10340
+load 12 // v10341
+itob
+concat
+load 11 // v10342
+itob
+concat
+concat
+concat
+store 11 // v10366
+b _reachi_2
+Info_Admins_addr0DMX_X6CiwvrzEQOGnkmxdCO8TJN3oC9WXIduVQfFmc_:
+txna ApplicationArgs 1
+store 11 // v10276
+_reacha_Info_Admins:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:41:11:property binding
+callsub l2_LF_svsLoad_3
+// resource: R_Box
+byte base64()
+byte base64()
+byte base64(Ag==)
+load 11 // v10276
+concat
+callsub l3_LF_mapRef
+int 0
+getbyte
+int 1
+==
+itob
+substring 7 8
+store 4 // GV_apiRet :: Null
+apiReturn_check:
+txn OnCompletion
+int NoOp
+==
+assert
+// checked on completion
+apiReturn_noCheck:
+byte base64(FR98dQ==)
+load 4 // GV_apiRet :: Null
+concat
+log // up to 12 bytes
+done:
+int 1
+return
+Info_balance__uivWc87iXmynsa6ppZhrutwHED7ui_erWZe1cwSzUO39o_:
+_reacha_Info_balance:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:47:12:property binding
+callsub l2_LF_svsLoad_3
+load 14 // v2086
+itob
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+Info_claimed_add7MO6HKJ9bJy4qy7woENXDxwhXNgYLtL3ao_EF0qEj6U_:
+txna ApplicationArgs 1
+txna ApplicationArgs 2
+btoi
+store 11 // v10283
+store 12 // v10282
+_reacha_Info_claimed:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:39:12:property binding
+callsub l2_LF_svsLoad_3
+int 16
+bzero
+// resource: R_Box
+byte base64()
+int 16
+bzero
+byte base64(AQ==)
+load 12 // v10282
+load 11 // v10283
+itob
+concat
+concat
+callsub l3_LF_mapRef
+callsub l4_LF_fromSome
+extract 0 8
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+Info_opted_addre0ExNsQ1F4ovmZnD_SASEmwURNs0YuTWn5SnO2OIv_ts_:
+txna ApplicationArgs 1
+store 11 // v10288
+_reacha_Info_opted:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:42:10:property binding
+callsub l2_LF_svsLoad_3
+// resource: R_Box
+byte base64()
+byte base64()
+byte base64(BA==)
+load 11 // v10288
+concat
+callsub l3_LF_mapRef
+int 0
+getbyte
+int 1
+==
+itob
+substring 7 8
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+Info_totalAlloca8pNHPNW4vyj_Ma4Q0kb_xQ9A1Kx_OOL8fhtRXc62UWo_:
+_reacha_Info_totalAllocatedFunds:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:46:24:property binding
+callsub l2_LF_svsLoad_3
+load 16 // total_rewards_allcoated/2084
+itob
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+Info_totalAmountZtqoKUO8GgAmNo3p4k7c_9fE5HNC73q9IrEhcfVzjpw_:
+_reacha_Info_totalAmountClaimed:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:45:23:property binding
+callsub l2_LF_svsLoad_3
+load 19 // total_amount_claimed/2081
+itob
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+Info_totalClaime84VuZQ4BUNEY8JNt5r8nQoV6EdCsKQzs_R6G0oEysBU_:
+_reacha_Info_totalClaimed:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:43:17:property binding
+callsub l2_LF_svsLoad_3
+load 20 // total_users_claim/2080
+itob
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+Info_totalOptedIL_NQZYqqj0CfMPdZptM5dxLFljQfVQPy8pQwDBBi7ew_:
+_reacha_Info_totalOptedIn:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:44:17:property binding
+callsub l2_LF_svsLoad_3
+load 18 // usersNo/2082
+itob
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+Info_totalReward_ukWfT_nIxKsnB0f__Sk3mUJbAyt9LingIzMLe19kp0_:
+txna ApplicationArgs 1
+store 11 // v10300
+_reacha_Info_totalRewards:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:37:17:property binding
+callsub l2_LF_svsLoad_3
+int 8
+bzero
+// resource: R_Box
+byte base64()
+int 8
+bzero
+byte base64(AA==)
+load 11 // v10300
+concat
+callsub l3_LF_mapRef
+callsub l4_LF_fromSome
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+Info_userReward_vNOekaBJSVVT9SsT1g5r8hPihhN_SUF0U7saJaJG79E_:
+txna ApplicationArgs 1
+txna ApplicationArgs 2
+btoi
+store 11 // v10305
+store 12 // v10304
+_reacha_Info_userReward:
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./token.rsh:38:15:property binding
+callsub l2_LF_svsLoad_3
+int 16
+bzero
+// resource: R_Box
+byte base64()
+int 16
+bzero
+byte base64(AQ==)
+load 12 // v10304
+load 11 // v10305
+itob
+concat
+concat
+callsub l3_LF_mapRef
+callsub l4_LF_fromSome
+extract 8 8
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+User_claim_uint6EFYiHKImYuclUWdT_OqJXxi0EzoEL6HddbgecS2SktE_:
+txna ApplicationArgs 1
+btoi
+txna ApplicationArgs 2
+btoi
+store 11 // v10351
+store 12 // v10350
+_reacha_User_claim:
+int 8
+bzero
+byte base64(Bg==)
+load 12 // v10350
+itob
+load 11 // v10351
+itob
+concat
+concat
+global ZeroAddress
+concat
+concat
+store 11 // v10366
+b _reachi_2
+User_optin__voidlozpJcHjwgp4Se3UDX_jUs2IgQys2Ct8vq___hhb2Qw_:
+_reacha_User_optin:
+byte base64(AAAAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA)
+store 11 // v10366
+b _reachi_2
+_api_Admin_addAdmin2:
+txn Sender
+load 27 // Deployer/2017
+==
+// resource: R_Box
+byte base64()
+byte base64()
+byte base64(Ag==)
+txn Sender
+concat
+callsub l3_LF_mapRef
+int 0
+getbyte
+int 1
+==
+||
+assert
+// ^ Claim: You Are unable to register another Admin
+// at reach standard library:57:5:application
+// at ./token.rsh:194:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./token.rsh:193:34:application call to [unknown function] (defined at: ./token.rsh:193:34:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:193:34:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:81:37:function exp)
+// at ./token.rsh:92:14:application call to [unknown function] (defined at: ./token.rsh:92:14:function exp)
+// resource: R_Box
+int 15700
+byte base64(Ag==)
+load 13 // .fork177.msg/2361
+extract 1 32
+concat
+byte base64()
+callsub l15_LF_mapSet
+byte base64()
+store 11 // v2499
+byte base64(AAAAAAAACcM=)
+load 11 // v2499
+concat
+log // up to 8 bytes
+load 11 // v2499
+store 4 // GV_apiRet :: Null
+load 17 // bal/2083
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+global Round
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+_reachl_1:
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+btoi
+bz l23_ifF
+load 24 // MAIN_OBJECT/2031
+int 42
+extract_uint64
+store 20 // total_users_claim/2080
+load 24 // MAIN_OBJECT/2031
+int 26
+extract_uint64
+store 19 // total_amount_claimed/2081
+load 24 // MAIN_OBJECT/2031
+int 50
+extract_uint64
+store 18 // usersNo/2082
+load 24 // MAIN_OBJECT/2031
+int 0
+extract_uint64
+store 17 // bal/2083
+load 24 // MAIN_OBJECT/2031
+int 34
+extract_uint64
+store 16 // total_rewards_allcoated/2084
+load 22 // tokenInfos/2034
+extract 0 17
+dup
+store 15 // tokInfo/2085
+int 0
+extract_uint64
+store 14 // v2086
+l24_LF_svsDump_3:
+load 27 // Deployer/2017
+load 26 // projectName/2018
+concat
+load 25 // tok/2019
+itob
+concat
+load 24 // MAIN_OBJECT/2031
+concat
+load 22 // tokenInfos/2034
+concat
+load 21 // netBalance/2035
+itob
+concat
+load 20 // total_users_claim/2080
+itob
+concat
+load 19 // total_amount_claimed/2081
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+load 17 // bal/2083
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 15 // tokInfo/2085
+concat
+load 14 // v2086
+itob
+concat
+int 3
+global Round
+updateStateNoOp:
+store 2 // GV_currentTime :: UInt
+store 1 // GV_currentStep :: UInt
+byte base64(AA==)
+dig 1
+extract 0 127
+app_global_put
+byte base64(AQ==)
+swap
+extract 127 91
+app_global_put
+byte base64()
+load 1 // GV_currentStep :: UInt
+itob
+load 2 // GV_currentTime :: UInt
+itob
+concat
+app_global_put
+txn OnCompletion
+int NoOp
+==
+assert
+// checked on completion
+callsub l27_LF_updateMbr
+updateState:
+load 3 // GV_wasntMeth :: Bool
+bnz done
+b apiReturn_noCheck
+_api_Admin_deposit2:
+load 13 // .fork177.msg/2361
+int 1
+extract_uint64
+store 11 // val/2868
+txn Sender
+load 27 // Deployer/2017
+==
+// resource: R_Box
+byte base64()
+byte base64()
+byte base64(Ag==)
+txn Sender
+concat
+callsub l3_LF_mapRef
+int 0
+getbyte
+int 1
+==
+||
+assert
+// ^ Claim: Only Admins can deposit
+// at reach standard library:57:5:application
+// at ./token.rsh:122:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./token.rsh:121:32:application call to [unknown function] (defined at: ./token.rsh:121:32:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:121:32:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:81:37:function exp)
+// at ./token.rsh:92:14:application call to [unknown function] (defined at: ./token.rsh:92:14:function exp)
+load 11 // val/2868
+load 25 // tok/2019
+callsub l16_LF_checkTxn_True
+// ^ CheckPay
+// at ./token.rsh:81:37:dot
+byte base64()
+store 12 // v3009
+byte base64(AAAAAAAAC8E=)
+load 12 // v3009
+concat
+log // up to 8 bytes
+load 12 // v3009
+store 4 // GV_apiRet :: Null
+load 17 // bal/2083
+load 11 // val/2868
++
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+global Round
+load 22 // tokenInfos/2034
+load 15 // tokInfo/2085
+load 14 // v2086
+load 11 // val/2868
++
+itob
+replace2 0
+replace2 0
+store 22 // tokenInfos/2034
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+_api_Admin_editUserReward2:
+load 11 // data_id/3334
+int 32
+extract_uint64
+store 12 // Amt/3368
+txn Sender
+load 27 // Deployer/2017
+==
+// resource: R_Box
+byte base64()
+byte base64()
+byte base64(Ag==)
+txn Sender
+concat
+callsub l3_LF_mapRef
+int 0
+getbyte
+int 1
+==
+||
+assert
+// ^ Claim: Only Admins can deposit
+// at reach standard library:57:5:application
+// at ./token.rsh:181:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./token.rsh:180:45:application call to [unknown function] (defined at: ./token.rsh:180:45:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:180:45:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:81:37:function exp)
+// at ./token.rsh:92:14:application call to [unknown function] (defined at: ./token.rsh:92:14:function exp)
+load 12 // Amt/3368
+load 14 // v2086
+<=
+assert
+// ^ Claim: Can only edit what is in the contract
+// at reach standard library:57:5:application
+// at ./token.rsh:182:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./token.rsh:180:45:application call to [unknown function] (defined at: ./token.rsh:180:45:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:180:45:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:81:37:function exp)
+// at ./token.rsh:92:14:application call to [unknown function] (defined at: ./token.rsh:92:14:function exp)
+// resource: R_Box
+int 18900
+byte base64(AA==)
+load 11 // data_id/3334
+extract 0 32
+concat
+load 12 // Amt/3368
+itob
+callsub l15_LF_mapSet
+byte base64()
+store 11 // v3526
+byte base64(AAAAAAAADcY=)
+load 11 // v3526
+concat
+log // up to 8 bytes
+load 11 // v3526
+store 4 // GV_apiRet :: Null
+load 17 // bal/2083
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+global Round
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+_api_Admin_endContractAndTransfer2:
+load 27 // Deployer/2017
+txn Sender
+==
+assert
+// ^ Claim: Cannot end contract without being Deployer
+// at reach standard library:57:5:application
+// at ./token.rsh:324:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./token.rsh:323:44:application call to [unknown function] (defined at: ./token.rsh:323:44:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:323:44:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:81:37:function exp)
+// at ./token.rsh:92:14:application call to [unknown function] (defined at: ./token.rsh:92:14:function exp)
+byte base64()
+store 11 // v4031
+byte base64(AAAAAAAAD78=)
+load 11 // v4031
+concat
+log // up to 8 bytes
+load 11 // v4031
+store 4 // GV_apiRet :: Null
+load 17 // bal/2083
+itob
+byte base64(AA==)
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+global Round
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+_api_Admin_revokeAdmin2:
+txn Sender
+load 27 // Deployer/2017
+==
+assert
+// ^ Claim: Only the Deployer can revoke Admin Rights
+// at reach standard library:57:5:application
+// at ./token.rsh:208:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./token.rsh:207:37:application call to [unknown function] (defined at: ./token.rsh:207:37:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:207:37:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:81:37:function exp)
+// at ./token.rsh:92:14:application call to [unknown function] (defined at: ./token.rsh:92:14:function exp)
+// resource: R_Box
+int 15700
+byte base64(Ag==)
+load 13 // .fork177.msg/2361
+extract 1 32
+concat
+callsub l17_LF_mapDel
+byte base64()
+store 11 // v4537
+byte base64(AAAAAAAAEbk=)
+load 11 // v4537
+concat
+log // up to 8 bytes
+load 11 // v4537
+store 4 // GV_apiRet :: Null
+load 17 // bal/2083
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+global Round
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+_api_Admin_setReward2:
+load 11 // data_id/4789
+extract 0 32
+store 30 // v/4860
+load 11 // data_id/4789
+int 40
+extract_uint64
+dup
+store 29 // Amt/4862
+load 17 // bal/2083
+>
+store 28 // amtIsGreater/4863
+// resource: R_Box
+byte base64()
+byte base64()
+byte base64(BA==)
+load 30 // v/4860
+concat
+callsub l3_LF_mapRef
+int 0
+getbyte
+int 1
+==
+assert
+// ^ Claim: The user needs to opt in first
+// at reach standard library:57:5:application
+// at ./token.rsh:137:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./token.rsh:134:49:application call to [unknown function] (defined at: ./token.rsh:134:49:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:134:49:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:81:37:function exp)
+// at ./token.rsh:92:14:application call to [unknown function] (defined at: ./token.rsh:92:14:function exp)
+int 0
+load 29 // Amt/4862
+load 28 // amtIsGreater/4863
+select
+dup
+store 13 // v4868
+load 25 // tok/2019
+callsub l16_LF_checkTxn_True
+// ^ CheckPay
+// at ./token.rsh:81:37:dot
+load 30 // v/4860
+load 11 // data_id/4789
+extract 32 8
+concat
+store 12 // v5050
+int 16
+bzero
+// resource: R_Box
+byte base64()
+int 16
+bzero
+byte base64(AQ==)
+load 12 // v5050
+concat
+callsub l3_LF_mapRef
+callsub l4_LF_fromSome
+store 11 // returned/5053
+int 25300
+byte base64(AQ==)
+load 12 // v5050
+concat
+load 11 // returned/5053
+extract 0 8
+load 11 // returned/5053
+int 8
+extract_uint64
+load 29 // Amt/4862
++
+itob
+concat
+callsub l15_LF_mapSet
+// resource: R_Box
+int 18900
+byte base64(AA==)
+load 30 // v/4860
+concat
+int 8
+bzero
+byte base64()
+int 8
+bzero
+byte base64(AA==)
+load 30 // v/4860
+concat
+callsub l3_LF_mapRef
+callsub l4_LF_fromSome
+btoi
+load 29 // Amt/4862
++
+itob
+callsub l15_LF_mapSet
+int 1
+store 11 // v5066
+byte base64(AAAAAAAAE8o=)
+load 11 // v5066
+itob
+substring 7 8
+concat
+log // up to 9 bytes
+load 11 // v5066
+itob
+substring 7 8
+store 4 // GV_apiRet :: Null
+load 28 // amtIsGreater/4863
+bz l18_localIfF
+load 17 // bal/2083
+load 29 // Amt/4862
++
+store 11 // v5082
+l19_localIfK:
+load 11 // v5082
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+global Round
+load 22 // tokenInfos/2034
+load 15 // tokInfo/2085
+load 14 // v2086
+load 13 // v4868
++
+itob
+replace2 0
+replace2 0
+store 22 // tokenInfos/2034
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+_api_User_claim2:
+load 11 // data_id/5274
+int 0
+extract_uint64
+store 28 // amt/5361
+int 8
+bzero
+// resource: R_Box
+byte base64()
+int 8
+bzero
+byte base64(AA==)
+txn Sender
+concat
+callsub l3_LF_mapRef
+callsub l4_LF_fromSome
+btoi
+store 13 // currentRewardAmount/5364
+load 28 // amt/5361
+load 14 // v2086
+<=
+assert
+// ^ Claim: Cannot withdraw less than balance
+// at reach standard library:57:5:application
+// at ./token.rsh:268:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./token.rsh:266:38:application call to [unknown function] (defined at: ./token.rsh:266:38:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:266:38:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:81:37:function exp)
+// at ./token.rsh:92:14:application call to [unknown function] (defined at: ./token.rsh:92:14:function exp)
+load 13 // currentRewardAmount/5364
+load 28 // amt/5361
+>=
+assert
+// ^ Claim: Cannot withdraw less than allocated
+// at reach standard library:57:5:application
+// at ./token.rsh:269:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./token.rsh:266:38:application call to [unknown function] (defined at: ./token.rsh:266:38:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:266:38:function exp)
+// at ./token.rsh:81:37:application call to [unknown function] (defined at: ./token.rsh:81:37:function exp)
+// at ./token.rsh:92:14:application call to [unknown function] (defined at: ./token.rsh:92:14:function exp)
+txn Sender
+load 11 // data_id/5274
+extract 8 8
+concat
+store 12 // v5633
+int 16
+bzero
+// resource: R_Box
+byte base64()
+int 16
+bzero
+byte base64(AQ==)
+load 12 // v5633
+concat
+callsub l3_LF_mapRef
+callsub l4_LF_fromSome
+store 11 // returned/5636
+int 25300
+byte base64(AQ==)
+load 12 // v5633
+concat
+load 11 // returned/5636
+int 0
+extract_uint64
+load 28 // amt/5361
++
+itob
+load 11 // returned/5636
+int 8
+extract_uint64
+load 28 // amt/5361
+-
+itob
+concat
+callsub l15_LF_mapSet
+int 1
+store 11 // v5645
+byte base64(AAAAAAAAFg0=)
+load 11 // v5645
+itob
+substring 7 8
+concat
+log // up to 9 bytes
+load 11 // v5645
+itob
+substring 7 8
+store 4 // GV_apiRet :: Null
+txn Sender
+load 28 // amt/5361
+itob
+concat
+load 26 // projectName/2018
+concat
+store 11 // v5653
+byte base64(m8hUUA==)
+load 11 // v5653
+concat
+log // up to 74 bytes
+// ^ log: "claimed" [v5653] "claimed((address,uint64,byte[30]))"
+// resource: R_Box
+byte base64()
+byte base64()
+byte base64(Aw==)
+txn Sender
+concat
+callsub l3_LF_mapRef
+int 0
+getbyte
+int 1
+==
+bz l20_ifF
+load 22 // tokenInfos/2034
+load 15 // tokInfo/2085
+load 14 // v2086
+load 28 // amt/5361
+-
+itob
+replace2 0
+replace2 0
+store 11 // tokInfos'/5707
+load 28 // amt/5361
+// resource: R_Asset
+load 25 // tok/2019
+txn Sender
+callsub l6_LF_makeTxn_False_False_True_True
+load 13 // currentRewardAmount/5364
+bnz l21_ifF
+int 18900
+byte base64(AA==)
+txn Sender
+concat
+callsub l17_LF_mapDel
+load 17 // bal/2083
+load 28 // amt/5361
+-
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+load 28 // amt/5361
++
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+int 1
++
+itob
+concat
+load 18 // usersNo/2082
+int 1
++
+itob
+concat
+global Round
+load 11 // tokInfos'/5707
+store 22 // tokenInfos/2034
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+_api_User_optin2:
+// resource: R_Box
+int 15700
+byte base64(BA==)
+txn Sender
+concat
+byte base64()
+callsub l15_LF_mapSet
+byte base64()
+store 11 // v6229
+byte base64(AAAAAAAAGFU=)
+load 11 // v6229
+concat
+log // up to 8 bytes
+load 11 // v6229
+store 4 // GV_apiRet :: Null
+load 17 // bal/2083
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+global Round
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+_reachi_0:
+txn Sender
+store 27 // Deployer/2017
+load 11 // v10363
+int 0
+extract_uint64
+store 12 // v10362
+load 11 // v10363
+extract 8 30
+store 26 // projectName/2018
+load 11 // v10363
+int 38
+extract_uint64
+store 25 // tok/2019
+byte base64(KEvH8A==)
+load 12 // v10362
+itob
+concat
+load 26 // projectName/2018
+concat
+load 25 // tok/2019
+itob
+concat
+log // up to 50 bytes
+// ^ log: "_reach_e0" [v10362,projectName/2018,tok/2019] "_reach_e0(uint64,byte[30],uint64)"
+load 12 // v10362
+callsub l5_LF_timeCheck
+int 17
+bzero
+store 11 // tokInfos/2009
+int 100000
+callsub l1_LF_mbrAdd
+int 0
+// resource: R_Asset
+load 25 // tok/2019
+global CurrentApplicationAddress
+callsub l6_LF_makeTxn_False_False_True_True
+byte base64(AAAAAAAAAAABAAAAAAAAAAUAAAAAAAAAZAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==)
+global Round
+load 11 // tokInfos/2009
+dup
+extract 0 17
+int 8
+bzero
+replace2 0
+replace2 0
+int 0
+store 21 // netBalance/2035
+store 22 // tokenInfos/2034
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+_reachp_0:
+callsub l0_LF_wasntMeth
+int 100000
+callsub l1_LF_mbrAdd
+txna ApplicationArgs 1
+store 11 // v10363
+b _reachi_0
+_reachp_2:
+callsub l0_LF_wasntMeth
+txna ApplicationArgs 1
+store 11 // v10366
+b _reachi_2
+alloc:
+int 0
+txn GlobalNumUint
+==
+assert
+int 3
+txn GlobalNumByteSlice
+==
+assert
+int 0
+txn LocalNumUint
+==
+assert
+int 0
+txn LocalNumByteSlice
+==
+assert
+callsub l0_LF_wasntMeth
+int 218
+bzero
+int 0
+int 0
+b updateStateNoOp
+l10_Admin_endContractAndTransfer0_177:
+b _api_Admin_endContractAndTransfer2
+l11_Admin_revokeAdmin0_177:
+b _api_Admin_revokeAdmin2
+l12_Admin_setReward0_177:
+load 13 // .fork177.msg/2361
+extract 1 48
+store 11 // data_id/4789
+b _api_Admin_setReward2
+l13_User_claim0_177:
+load 13 // .fork177.msg/2361
+extract 1 16
+store 11 // data_id/5274
+b _api_User_claim2
+l14_User_optin0_177:
+b _api_User_optin2
+l18_localIfF:
+load 17 // bal/2083
+store 11 // v5082
+b l19_localIfK
+l20_ifF:
+int 15700
+byte base64(Aw==)
+txn Sender
+concat
+byte base64()
+callsub l15_LF_mapSet
+load 22 // tokenInfos/2034
+load 15 // tokInfo/2085
+load 14 // v2086
+load 28 // amt/5361
+-
+itob
+replace2 0
+replace2 0
+store 11 // tokInfos'/5664
+load 28 // amt/5361
+// resource: R_Asset
+load 25 // tok/2019
+txn Sender
+callsub l6_LF_makeTxn_False_False_True_True
+load 13 // currentRewardAmount/5364
+bnz l22_ifF
+int 18900
+byte base64(AA==)
+txn Sender
+concat
+callsub l17_LF_mapDel
+load 17 // bal/2083
+load 28 // amt/5361
+-
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+load 28 // amt/5361
++
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+int 1
++
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+global Round
+load 11 // tokInfos'/5664
+store 22 // tokenInfos/2034
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+l21_ifF:
+int 18900
+byte base64(AA==)
+txn Sender
+concat
+load 13 // currentRewardAmount/5364
+load 28 // amt/5361
+-
+itob
+callsub l15_LF_mapSet
+load 17 // bal/2083
+load 28 // amt/5361
+-
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+load 28 // amt/5361
++
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+int 1
++
+itob
+concat
+load 18 // usersNo/2082
+int 1
++
+itob
+concat
+global Round
+load 11 // tokInfos'/5707
+store 22 // tokenInfos/2034
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+l22_ifF:
+int 18900
+byte base64(AA==)
+txn Sender
+concat
+load 13 // currentRewardAmount/5364
+load 28 // amt/5361
+-
+itob
+callsub l15_LF_mapSet
+load 17 // bal/2083
+load 28 // amt/5361
+-
+itob
+load 24 // MAIN_OBJECT/2031
+extract 8 1
+concat
+load 24 // MAIN_OBJECT/2031
+extract 9 17
+concat
+load 19 // total_amount_claimed/2081
+load 28 // amt/5361
++
+itob
+concat
+load 16 // total_rewards_allcoated/2084
+itob
+concat
+load 20 // total_users_claim/2080
+int 1
++
+itob
+concat
+load 18 // usersNo/2082
+itob
+concat
+global Round
+load 11 // tokInfos'/5664
+store 22 // tokenInfos/2034
+store 23 // thisConsensusTime/2032
+store 24 // MAIN_OBJECT/2031
+b _reachl_1
+l23_ifF:
+load 21 // netBalance/2035
+// resource: R_Account
+load 27 // Deployer/2017
+callsub l25_LF_makeTxn_False_False_False_True
+load 22 // tokenInfos/2034
+extract 0 17
+int 0
+extract_uint64
+// resource: R_Asset
+load 25 // tok/2019
+load 27 // Deployer/2017
+callsub l6_LF_makeTxn_False_False_True_True
+// resource: R_Account
+int 0
+load 25 // tok/2019
+global CurrentApplicationAddress
+global CreatorAddress
+callsub l26_LF_makeTxn_False_True_True_True
+updateStateHalt:
+txn OnCompletion
+int DeleteApplication
+==
+assert
+// checked on completion
+callsub l27_LF_updateMbr
+// resource: R_Account
+global CurrentApplicationAddress
+balance
+global CurrentApplicationAddress
+min_balance
+-
+l28_getActualBalance:
+dup
+store 6 // GV_mbrAdd :: UInt
+global CurrentApplicationAddress
+callsub l25_LF_makeTxn_False_False_False_True
+b updateState
+l30_boxSet:
+pop
+swap
+box_put
+pop
+retsub
+l31_LF_makeTxnK_False_True:
+int 0
+itxn_field Fee
+int pay
+itxn_field TypeEnum
+itxn_field Receiver
+itxn_field Amount
+itxn_submit
+retsub
+l32_LF_makeTxnK_True_True:
+int 0
+itxn_field Fee
+int axfer
+itxn_field TypeEnum
+itxn_field AssetReceiver
+itxn_field XferAsset
+itxn_field AssetAmount
+itxn_submit
+retsub
+l7_Admin_addAdmin0_177:
+b _api_Admin_addAdmin2
+l8_Admin_deposit0_177:
+b _api_Admin_deposit2
+l9_Admin_editUserReward0_177:
+load 13 // .fork177.msg/2361
+extract 1 40
+store 11 // data_id/3334
+b _api_Admin_editUserReward2
+updateMbr_eq:
+pop
+retsub
+updateMbr_neg:
+swap
+-
+dup
+store 6 // GV_mbrAdd :: UInt
+global CreatorAddress
+callsub l25_LF_makeTxn_False_False_False_True
+retsub
+updateMbr_pos_eq:
+-
+dup
+bz updateMbr_eq
+dup
+store 6 // GV_mbrAdd :: UInt
+l33_LF_checkTxn_False:
+// resource: R_Txn
+txn GroupIndex
+load 0 // GV_txnCounter :: UInt
+int 1
++
+dup
+store 0 // GV_txnCounter :: UInt
+-
+dupn 2
+gtxns Receiver
+global CurrentApplicationAddress
+==
+assert
+gtxns TypeEnum
+int pay
+==
+assert
+gtxns Amount
+==
+assert
+retsub
+l3_LF_mapRef:
+box_get
+dup
+itob
+substring 7 8
+bury 4
+select
+concat
+retsub
+l2_LF_svsLoad_3:
+dup
+extract 0 32
+store 27 // Deployer/2017
+dup
+extract 32 30
+store 26 // projectName/2018
+dup
+int 62
+extract_uint64
+store 25 // tok/2019
+dup
+extract 70 58
+store 24 // MAIN_OBJECT/2031
+dup
+extract 128 17
+store 22 // tokenInfos/2034
+dup
+int 145
+extract_uint64
+store 21 // netBalance/2035
+dup
+int 153
+extract_uint64
+store 20 // total_users_claim/2080
+dup
+int 161
+extract_uint64
+store 19 // total_amount_claimed/2081
+dup
+int 169
+extract_uint64
+store 18 // usersNo/2082
+dup
+int 177
+extract_uint64
+store 17 // bal/2083
+dup
+int 185
+extract_uint64
+store 16 // total_rewards_allcoated/2084
+dup
+extract 193 17
+store 15 // tokInfo/2085
+int 210
+extract_uint64
+store 14 // v2086
+retsub
+l15_LF_mapSet:
+swap
+dup
+box_len
+bnz l30_boxSet
+dig 3
+callsub l1_LF_mbrAdd
+b l30_boxSet
+l4_LF_fromSome:
+dup
+extract 1 0
+swap
+int 0
+getbyte
+select
+retsub
+l6_LF_makeTxn_False_False_True_True:
+itxn_begin
+b l32_LF_makeTxnK_True_True
+l25_LF_makeTxn_False_False_False_True:
+itxn_begin
+b l31_LF_makeTxnK_False_True
+l1_LF_mbrAdd:
+load 6 // GV_mbrAdd :: UInt
++
+store 6 // GV_mbrAdd :: UInt
+retsub
+l17_LF_mapDel:
+box_del
+int 0
+cover 2
+select
+l29_LF_mbrSub:
+load 7 // GV_mbrSub :: UInt
++
+store 7 // GV_mbrSub :: UInt
+retsub
+l0_LF_wasntMeth:
+int 1
+store 3 // GV_wasntMeth :: Bool
+retsub
+l5_LF_timeCheck:
+dup
+int 0
+==
+swap
+load 2 // GV_currentTime :: UInt
+==
+||
+assert
+retsub
+l27_LF_updateMbr:
+load 6 // GV_mbrAdd :: UInt
+load 7 // GV_mbrSub :: UInt
+dup2
+>=
+bz updateMbr_neg
+b updateMbr_pos_eq
+l16_LF_checkTxn_True:
+// resource: R_Txn
+txn GroupIndex
+load 0 // GV_txnCounter :: UInt
+int 1
++
+dup
+store 0 // GV_txnCounter :: UInt
+-
+dupn 3
+gtxns AssetReceiver
+global CurrentApplicationAddress
+==
+assert
+gtxns TypeEnum
+int axfer
+==
+assert
+gtxns XferAsset
+uncover 2
+==
+assert
+gtxns AssetAmount
+==
+assert
+retsub
+l26_LF_makeTxn_False_True_True_True:
+itxn_begin
+itxn_field AssetCloseTo
+b l32_LF_makeTxnK_True_True
