@@ -16,6 +16,22 @@ const app = express();
 // Example data for floor price and rewards
 
 // Get floor price by collection name
+
+import fs from "fs";
+
+// Endpoint for serving documentation
+app.get("/", (_, res) => {
+  // Read the documentation HTML file
+  fs.readFile("documentation.html", "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.send(data);
+    }
+  });
+});
+
 app.get("/floor-price/:collection", async (req, res) => {
   try {
     const _collection: string = req?.params?.collection;
@@ -74,7 +90,6 @@ app.post("/rewards-to-collect/", bodyParser.json(), async (req, res) => {
       isToken
     );
   }
-  console.log({ ans: value });
 
   if (value) {
     res.json({ data: value });

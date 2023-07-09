@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Documentation</title>
+</head>
+<body>
+  <h1>API Documentation</h1>
+  
+  <h2>Get Floor Price by Collection</h2>
+  <p>
+    <strong>Endpoint:</strong> GET /floor-price/:collection
+  </p>
+  <p>
+    <strong>Description:</strong> Get the floor price for a collection.
+  </p>
+  <p>
+    <strong>Parameters:</strong>
+    <ul>
+      <li><code>collection</code> (string): The name of the collection.</li>
+    </ul>
+  </p>
+  <p>
+    <strong>Example:</strong>
+    <code>GET /floor-price/mycollection</code>
+  </p>
+
+  <h2>Get Rewards to Collect</h2>
+  <p>
+    <strong>Endpoint:</strong> POST /rewards-to-collect/
+  </p>
+  <p>
+    <strong>Description:</strong> Get the rewards to collect for a wallet address and asset ID.
+  </p>
+  <p>
+    <strong>Request Body:</strong>
+    <ul>
+      <li><code>walletAddress</code> (string): The wallet address.</li>
+      <li><code>assetId</code> (string): The asset ID.</li>
+      <li><code>contract</code> (string): The contract information.</li>
+      <li><code>isToken</code> (boolean): Whether it's a token.</li>
+      <li><code>isTestNet</code> (boolean): Optional. Whether it's a testnet.</li>
+    </ul>
+  </p>
+  <p>
+    <strong>Example:</strong>
+    <code>POST /rewards-to-collect/</code>
+    <br />
+    Request Body:
+    <pre>
+{
+  "walletAddress": "0x1234567890",
+  "assetId": "123",
+  "contract": "contract info",
+  "isToken": true,
+  "isTestNet": false
+}
+    </pre>
+  </p>
+
+  <h2>Get Rewards Collected</h2>
+  <p>
+    <strong>Endpoint:</strong> POST /rewards-collected/
+  </p>
+  <p>
+    <strong>Description:</strong> Get the rewards collected for a wallet address and asset ID.
+  </p>
+  <p>
+    <strong>Request Body:</strong>
+    <ul>
+      <li><code>walletAddress</code> (string): The wallet address.</li>
+      <li><code>assetId</code> (string): The asset ID.</li>
+      <li><code>contract</code> (string): The contract information.</li>
+      <li><code>isToken</code> (boolean): Whether it's a token.</li>
+      <li><code>isTestNet</code> (boolean): Optional. Whether it's a testnet.</li>
+    </ul>
+  </p>
+  <p>
+    <strong>Example:</strong>
+    <code>POST /rewards-collected/</code>
+    <br />
+    Request Body:
+    <pre>
+{
+  "walletAddress": "0x1234567890",
+  "assetId": "123",
+  "contract": "contract info",
+  "isToken": true,
+  "isTestNet": false
+}
+    </pre>
+  </p>
+
+  <h2>Get History of Items Collected</h2>
+  <p>
+    <strong>Endpoint:</strong> GET /history/:walletAddress/:network
+  </p>
+  <p>
+    <strong>Description:</strong> Get the history of items collected by a wallet address.
+  </p>
+  <p>
+    <strong>Parameters:</strong>
+    <ul>
+      <li><code>walletAddress</code> (string): The wallet address.</li>
+      <li><code>network</code> (string): The network (mainnet or testnet).</li>
+    </ul>
+  </p>
+  <p>
+    <strong>Example:</strong>
+    <code>GET /history/0x1234567890/mainnet</code>
+  </p>
+
+  <script>
+    // You can add JavaScript code here if needed
+  </script>
+</body>
+</html>
