@@ -1,5 +1,5 @@
 import express from "express";
-import { getFloor } from "./puppeteer/index.js";
+import { getFloor, verifyAsset } from "./puppeteer/index.js";
 import { db, readDataFromSnapShots_preserve } from "./firebase_admin/index.js";
 import { parseLocaleNumber } from "./utils/formatter.js";
 import { reach, viewAssetClaimed, viewAssetClaimed_testnet, viewAssetReward, viewAssetReward_testnet, } from "./utils/reach/index.js";
@@ -9,13 +9,13 @@ const app = express();
 // Example data for floor price and rewards
 // Get floor price by collection name
 import fs from "fs";
-app.use(function (_, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    next();
-});
+// app.use(function (_, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
     // Read the documentation HTML file
@@ -46,6 +46,34 @@ app.get("/floor-price/:collection", async (req, res) => {
         }
         else {
             return res.status(404).json({ error: "Collection not found" });
+        }
+    }
+    catch (error) {
+        if (error?.message) {
+            const data = JSON.parse(error?.message);
+            return res
+                .status(500)
+                .json({ error: `${data?.[0]?.code} expected ${data?.[0]?.expected}` });
+        }
+        return res.status(500).json({ err: "failed" });
+    }
+});
+app.get("/asset/:assetID", async (req, res) => {
+    try {
+        const _asset = req?.params?.assetID;
+        const asset = _asset;
+        const ASSET_REF = db.ref(`verifiedAssets/${asset}`);
+        const [_assetID] = await readDataFromSnapShots_preserve(ASSET_REF);
+        if (_assetID) {
+            return res.status(200).json({ data: { collection: _assetID } });
+        }
+        const assetCollection = await verifyAsset(asset);
+        if (assetCollection) {
+            await ASSET_REF.set({ collection: assetCollection });
+            return res.json({ data: { collection: assetCollection } });
+        }
+        else {
+            return res.status(404).json({ error: "Couldn't find asset" });
         }
     }
     catch (error) {
