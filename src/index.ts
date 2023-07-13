@@ -19,13 +19,13 @@ const app = express();
 
 import fs from "fs";
 
-// app.use(function (_, res, next) {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   next();
-// });
+app.use(function (_, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
   // Read the documentation HTML file
@@ -75,7 +75,7 @@ app.get("/asset/:assetID", async (req, res) => {
     const [_assetID] = await readDataFromSnapShots_preserve(ASSET_REF);
 
     if (_assetID) {
-      return res.status(200).json({ data: { collection: _assetID } });
+      return res.status(200).json({ data: _assetID });
     }
     const assetCollection = await verifyAsset(asset);
     if (assetCollection) {
