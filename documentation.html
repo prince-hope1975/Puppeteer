@@ -26,6 +26,50 @@
     <strong>Example:</strong>
     <code>GET /floor-price/mycollection</code>
   </p>
+  
+  <h2>Get Asset by ID</h2>
+  <p>
+    <strong>Endpoint:</strong> GET /asset/:assetID
+  </p>
+  <p>
+    <strong>Description:</strong> Get asset information by its ID.
+  </p>
+  <p>
+    <strong>Parameters:</strong>
+    <ul>
+      <li><code>assetID</code> (string): The ID of the asset.</li>
+    </ul>
+  </p>
+  <p>
+    <strong>Response:</strong>
+    <ul>
+      <li>Success (200):
+        <ul>
+          <li>JSON object with the asset information.</li>
+        </ul>
+      </li>
+      <li>Error (404):
+        <ul>
+          <li>JSON object with the error message if the asset is not found.</li>
+        </ul>
+      </li>
+    </ul>
+  </p>
+  <p>
+    <strong>Example:</strong>
+    <br>
+    <strong>Request:</strong> GET /asset/123456
+    <br>
+    <strong>Response:</strong>
+    <pre>
+{
+  "data": {
+    "collection": "Asset Collection Name"
+  }
+}
+    </pre>
+  </p>
+
 
   <h2>Get Rewards to Collect</h2>
   <p>
