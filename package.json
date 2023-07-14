@@ -15,6 +15,7 @@
     "node-cron": "^3.0.2",
     "puppeteer": "^19.4.1",
     "puppeteer-core": "^20.1.2",
+    "swagger-ui-dist": "^5.1.0",
     "zod": "^3.21.4"
   }
 }

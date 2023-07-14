@@ -1,0 +1,179 @@
+openapi: 3.0.3
+info:
+  title: API Documentation
+  version: 1.0.0
+paths:
+  /floor-price/{collection}:
+    get:
+      summary: Get Floor Price by Collection
+      parameters:
+        - in: path
+          name: collection
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+        '404':
+          description: Collection not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /rewards-to-collect/:
+    post:
+      summary: Get Rewards to Collect
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                walletAddress:
+                  type: string
+                assetId:
+                  type: string
+                contract:
+                  type: string
+                isToken:
+                  type: boolean
+                isTestNet:
+                  type: boolean
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: number
+        '404':
+          description: Reward not found or already collected
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /rewards-collected/:
+    post:
+      summary: Get Rewards Collected
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                walletAddress:
+                  type: string
+                assetId:
+                  type: string
+                contract:
+                  type: string
+                isToken:
+                  type: boolean
+                isTestNet:
+                  type: boolean
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: number
+        '404':
+          description: Reward not found or not yet collected
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /history/{walletAddress}/{network}:
+    get:
+      summary: Get History of Items Collected
+      parameters:
+        - in: path
+          name: walletAddress
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: network
+          required: true
+          schema:
+            type: string
+            enum:
+              - mainnet
+              - testnet
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+        '404':
+          description: No collected items found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /asset/{assetID}:
+    get:
+      summary: Get Asset by ID
+      parameters:
+        - in: path
+          name: assetID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+        '404':
+          description: Couldn't find asset
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
