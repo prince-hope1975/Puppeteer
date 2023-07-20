@@ -22,7 +22,9 @@ export const getFloor = async (collection: string) => {
     // console.log(await page.content())
 
     // Wait for suggest overlay to appear and click "show all results".
+    console.log("Started waiting")
     const allResultsSelector = "svg.text-primary";
+    console.log("Ended waiting")
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
     await page.waitForSelector(allResultsSelector);
@@ -34,6 +36,7 @@ export const getFloor = async (collection: string) => {
         // @ts-ignore
         return [...document?.querySelectorAll(".display-6")]?.map((anchor) => {
           const title = anchor?.textContent?.split("|")[0].trim();
+          console.log({ title });
           return `${title}`;
         });
       }, va)) || [];
