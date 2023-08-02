@@ -26,11 +26,11 @@ app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
-app.use(express.static("src/swagger-ui-dist"));
+app.use(express.static("/src/swagger-ui-dist"));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
   // Read the documentation HTML file
-  fs.readFile("src/swagger-ui-dist/index.html", "utf8", (err, data) => {
+  fs.readFile("/src/swagger-ui-dist/index.html", "utf8", (err, data) => {
     if (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");
