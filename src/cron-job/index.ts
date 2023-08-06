@@ -19,7 +19,7 @@ const Func = async () => {
   }
 };
 
-schedule("40 */24 * * *", () => {
+schedule("* * * * *", () => {
   Func()
     .then(() => {
       console.log({ res: "success" });

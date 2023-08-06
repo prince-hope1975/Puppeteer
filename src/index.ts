@@ -11,6 +11,7 @@ import {
 } from "./utils/reach/index.js";
 import { z } from "zod";
 import bodyParser from "body-parser";
+import path from "path";
 const app = express();
 
 // Example data for floor price and rewards
@@ -26,18 +27,20 @@ app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
-app.use(express.static("/src/swagger-ui-dist"));
+// app.use(express.static("/src/swagger-ui-dist/"));
+app.use(express.static(path.resolve("./src/swagger-ui-dist/")));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
   // Read the documentation HTML file
-  fs.readFile("/src/swagger-ui-dist/index.html", "utf8", (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Internal Server Error");
-    } else {
-      res.send(data);
-    }
-  });
+  res.sendFile(path.resolve("./src/swagger-ui-dist/index.html"));
+  // fs.readFile("src/swagger-ui-dist/index.html", "utf8", (err, data) => {
+  //   if (err) {
+  //     console.error(err);
+  //     res.status(500).send("Internal Server Error");
+  //   } else {
+  //     res.send(data);
+  //   }
+  // });
 });
 
 app.get("/floor-price/:collection", async (req, res) => {

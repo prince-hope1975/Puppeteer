@@ -5,7 +5,7 @@ export const getFloor = async (collection: string) => {
   try {
     z.string().parse(collection);
 
-    const browser = await puppeteer.launch({});
+    const browser = await puppeteer.launch();
 
     const page = await browser.newPage();
 

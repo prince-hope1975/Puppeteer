@@ -5,10 +5,8 @@ import { parseLocaleNumber } from "./utils/formatter.js";
 import { reach, viewAssetClaimed, viewAssetClaimed_testnet, viewAssetReward, viewAssetReward_testnet, } from "./utils/reach/index.js";
 import { z } from "zod";
 import bodyParser from "body-parser";
+import path from "path";
 const app = express();
-// Example data for floor price and rewards
-// Get floor price by collection name
-import fs from "fs";
 app.use(function (_, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -16,19 +14,20 @@ app.use(function (_, res, next) {
     res.setHeader("Access-Control-Allow-Credentials", "true");
     next();
 });
-app.use(express.static("src/swagger-ui-dist"));
+// app.use(express.static("/src/swagger-ui-dist/"));
+app.use(express.static(path.resolve("./src/swagger-ui-dist/")));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
     // Read the documentation HTML file
-    fs.readFile("src/swagger-ui-dist/index.html", "utf8", (err, data) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        }
-        else {
-            res.send(data);
-        }
-    });
+    res.sendFile(path.resolve("./src/swagger-ui-dist/index.html"));
+    // fs.readFile("src/swagger-ui-dist/index.html", "utf8", (err, data) => {
+    //   if (err) {
+    //     console.error(err);
+    //     res.status(500).send("Internal Server Error");
+    //   } else {
+    //     res.send(data);
+    //   }
+    // });
 });
 app.get("/floor-price/:collection", async (req, res) => {
     try {
