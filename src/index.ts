@@ -28,7 +28,7 @@ app.use(function (_, res, next) {
   next();
 });
 // app.use(express.static("/src/swagger-ui-dist/"));
-app.use(express.static(path.resolve("./src/swagger-ui-dist/")));
+app.use(express.static(path.resolve("./swagger-ui-dist/")));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
   // Read the documentation HTML file
