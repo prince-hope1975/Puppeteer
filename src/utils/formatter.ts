@@ -1,4 +1,4 @@
-export function parseLocaleNumber(stringNumber, locale) {
+export function parseLocaleNumber(stringNumber:string, locale:string) {
   let thousandSeparator = Intl.NumberFormat(locale)
     .format(11111)
     .replace(/\p{Number}/gu, "");

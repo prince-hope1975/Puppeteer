@@ -11,14 +11,14 @@ const Func = async () => {
         return;
     if (typeof _floor === "object") {
         for (const key in _floor) {
-            console.log({ _floor, key });
+            // console.log({ _floor, key });
             const floor = await getFloor(key);
             const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
             await FLOOR_REF.child(key).set(floor_price);
         }
     }
 };
-schedule("* * * * *", () => {
+schedule("40 */24 * * *", () => {
     Func()
         .then(() => {
         console.log({ res: "success" });
