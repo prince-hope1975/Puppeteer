@@ -55,7 +55,7 @@ app.get("/floor-price/:collection", async (req, res) => {
     }
     const floor = await getFloor(collection);
     if (floor) {
-      const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
+      const floor_price = parseLocaleNumber(floor?.at(1)!, "en-US");
       await FLOOR_REF.set(floor_price);
       return res.json({ data: floor_price });
     } else {

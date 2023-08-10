@@ -12,14 +12,18 @@ const Func = async () => {
   if (typeof _floor === "object") {
     for (const key in _floor) {
       // console.log({ _floor, key });
-      const floor = await getFloor(key);
-      const floor_price = parseLocaleNumber(floor?.at(1)!, "en-US");
-      await FLOOR_REF.child(key).set(floor_price);
+      try {
+        const floor = await getFloor(key);
+        const floor_price = parseLocaleNumber(floor?.at(1)!, "en-US");
+        await FLOOR_REF.child(key).set(floor_price);
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 };
 
-schedule("40 */24 * * *", () => {
+schedule("*/4 * * * *", () => {
   Func()
     .then(() => {
       console.log({ res: "success" });
@@ -27,3 +31,11 @@ schedule("40 */24 * * *", () => {
     })
     .catch(console.error);
 });
+// schedule("40 */24 * * *", () => {
+//   Func()
+//     .then(() => {
+//       console.log({ res: "success" });
+//       console.log("Finishing Cron Job");
+//     })
+//     .catch(console.error);
+// });
