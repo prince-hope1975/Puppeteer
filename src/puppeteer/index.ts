@@ -33,7 +33,7 @@ export const getFloor = async (collection: string, browser: Browser) => {
 
     // Wait for suggest overlay to appear and click "show all results".
     const allResultsSelector = "svg.text-primary";
-    await wait(30000);
+    await wait(9000);
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
     // try {
