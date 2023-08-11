@@ -10,11 +10,13 @@ export const getFloor = async (collection, browser) => {
     try {
         z.string().parse(collection);
         const page = await browser.newPage();
+        console.log("Made new page");
         // await page.setDefaultNavigationTimeout(0);
         // await page.setUserAgent(
         //   "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
         // );
-        const statue = await page.goto(`https://www.nftexplorer.app/collection/${collection}/`, { waitUntil: "load", timeout: 60000 });
+        console.log("Started navigation to page");
+        const statue = await page.goto(`https://www.nftexplorer.app/collection/${collection}/`);
         const _status = statue?.status();
         if (_status != 404) {
             console.log(`Probably HTTP response status code 200 OK.`);
