@@ -5,3 +5,4 @@ import { getFloor } from "../puppeteer/index.js";
 const browser = await puppeteer.launch({ headless: "new" });
 const floor = await getFloor("algoatspfp", browser);
 console.log({ floor });
+process.exit()
