@@ -7,6 +7,7 @@ export const getFloor = async (collection, browser) => {
         // await page.setDefaultNavigationTimeout(0);
         page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
         const statue = await page.goto(`https://www.nftexplorer.app/collection/${collection}/`, { waitUntil: "load", timeout: 60000 });
+        console.log(page);
         const _status = statue?.status();
         if (_status != 404) {
             console.log(`Probably HTTP response status code 200 OK.`);
@@ -18,10 +19,9 @@ export const getFloor = async (collection, browser) => {
         // Wait for suggest overlay to appear and click "show all results".
         console.log("Started waiting");
         const allResultsSelector = "svg.text-primary";
-        console.log("Ended waiting");
         // const allResultsSelector = ".display-6";
         // await new Promise((resolve) => setTimeout(resolve, 10000));
-        await page.waitForSelector(allResultsSelector);
+        await page.waitForSelector(allResultsSelector, { timeout: 60000 });
         const va = await page.$$(allResultsSelector);
         // Extract the results from the page.
         const links = (await page.evaluate(() => {

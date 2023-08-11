@@ -14,6 +14,7 @@ export const getFloor = async (collection: string, browser: Browser) => {
       `https://www.nftexplorer.app/collection/${collection}/`,
       { waitUntil: "load", timeout: 60000 }
     );
+    console.log(page)
 
     const _status = statue?.status();
     if (_status != 404) {
@@ -27,10 +28,9 @@ export const getFloor = async (collection: string, browser: Browser) => {
     // Wait for suggest overlay to appear and click "show all results".
     console.log("Started waiting");
     const allResultsSelector = "svg.text-primary";
-    console.log("Ended waiting");
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
-    await page.waitForSelector(allResultsSelector);
+    await page.waitForSelector(allResultsSelector, { timeout: 60000 });
     const va = await page.$$(allResultsSelector);
 
     // Extract the results from the page.
