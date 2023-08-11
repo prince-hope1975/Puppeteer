@@ -23,7 +23,7 @@ const Func = async () => {
   }
 };
 
-schedule("*/4 * * * *", async () => {
+schedule("*/2 * * * *", async () => {
   await Func()
     .then(() => {
       console.log({ res: "success" });
