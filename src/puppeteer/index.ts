@@ -20,12 +20,14 @@ export const getFloor = async (collection: string, browser: Browser) => {
     );
     console.log("Started navigation to page");
     const statue = await page.goto(
-      `https://www.nftexplorer.app/collection/${collection}/`
+      `https://www.nftexplorer.app/collection/${collection}/`,
+      { waitUntil: "networkidle0" }
     );
-
+    const content = await page.content();
     const _status = statue?.status();
     if (_status != 404) {
       console.log(`Probably HTTP response status code 200 OK.`);
+      console.log({content})
       //...
     }
     // Type into search box.
