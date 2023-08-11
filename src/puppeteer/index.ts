@@ -10,8 +10,15 @@ export const getFloor = async (collection: string, browser: Browser) => {
     page.setUserAgent(
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
     );
-    await page.goto(`https://www.nftexplorer.app/collection/${collection}/`);
+    const statue = await page.goto(
+      `https://www.nftexplorer.app/collection/${collection}/`
+    );
 
+    const _status = statue?.status();
+    if (_status != 404) {
+      console.log(`Probably HTTP response status code 200 OK.`);
+      //...
+    }
     // Type into search box.
     //   await page.type(".devsite-search-field", "Headless Chrom e");
     // console.log(await page.content())
