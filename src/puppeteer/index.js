@@ -1,5 +1,11 @@
 import puppeteer from "puppeteer";
 import { z } from "zod";
+export async function wait(ms, func) {
+    return await new Promise((resolve) => setTimeout(() => {
+        func && func(true);
+        resolve(null);
+    }, ms));
+}
 export const getFloor = async (collection, browser) => {
     try {
         z.string().parse(collection);
@@ -17,6 +23,7 @@ export const getFloor = async (collection, browser) => {
         // console.log(await page.content())
         // Wait for suggest overlay to appear and click "show all results".
         const allResultsSelector = "svg.text-primary";
+        await wait(30000);
         // const allResultsSelector = ".display-6";
         // await new Promise((resolve) => setTimeout(resolve, 10000));
         // try {
