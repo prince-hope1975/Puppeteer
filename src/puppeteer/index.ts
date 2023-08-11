@@ -1,11 +1,11 @@
 import puppeteer from "puppeteer";
 import { z } from "zod";
+export const browser = await puppeteer.launch({ args: ["--enable-gpu"] });
 
 export const getFloor = async (collection: string) => {
   try {
     z.string().parse(collection);
 
-    const browser = await puppeteer.launch({ args: ["--enable-gpu"] });
 
     const page = await browser.newPage();
 
@@ -40,7 +40,7 @@ export const getFloor = async (collection: string) => {
 
     // Print all the files.
 
-    await browser.close();
+    // await browser.close();
     return [...links];
   } catch (error) {
     console.error(error);
