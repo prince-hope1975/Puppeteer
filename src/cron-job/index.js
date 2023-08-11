@@ -11,7 +11,7 @@ const Func = async () => {
     if (!_floor)
         return;
     if (typeof _floor === "object") {
-        const browser = await puppeteer.launch({ args: ["--enable-gpu"] });
+        const browser = await puppeteer.launch();
         for (const key in _floor) {
             // console.log({ _floor, key });
             try {
