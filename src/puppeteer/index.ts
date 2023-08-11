@@ -14,7 +14,7 @@ export const getFloor = async (collection: string, browser: Browser) => {
       `https://www.nftexplorer.app/collection/${collection}/`,
       { waitUntil: "load", timeout: 60000 }
     );
-    console.log(page);
+    console.log({ page });
 
     const _status = statue?.status();
     if (_status != 404) {
@@ -30,8 +30,11 @@ export const getFloor = async (collection: string, browser: Browser) => {
     const allResultsSelector = "svg.text-primary";
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
-    await page.waitForSelector(allResultsSelector, { timeout: 60000 });
+    await page
+      .waitForSelector(allResultsSelector, { timeout: 60000 })
+      .catch(console.error);
     const va = await page.$$(allResultsSelector);
+    console.log({ va });
 
     // Extract the results from the page.
     const links =
