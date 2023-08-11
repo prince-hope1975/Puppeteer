@@ -11,10 +11,12 @@ const Func = async () => {
   const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
   if (!_floor) return;
   if (typeof _floor === "object") {
+    console.log({ _floor });
+    console.time("start");
     const browser = await puppeteer.launch();
-
+    console.timeEnd("start");
+    console.log("Launched browser ", browser);
     for (const key in _floor) {
-      // console.log({ _floor, key });
       try {
         const floor = await getFloor(key, browser);
         const floor_price = parseLocaleNumber(floor?.at(1)!, "en-US");
