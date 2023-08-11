@@ -14,7 +14,7 @@ export const getFloor = async (collection: string, browser: Browser) => {
       `https://www.nftexplorer.app/collection/${collection}/`,
       { waitUntil: "load", timeout: 60000 }
     );
-    console.log(page)
+    console.log(page);
 
     const _status = statue?.status();
     if (_status != 404) {
