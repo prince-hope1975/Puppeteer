@@ -42,7 +42,7 @@ export const getFloor = async (collection: string, browser: Browser) => {
     // }
     //   .waitForSelector(allResultsSelector, { timeout: 60000 })
     //   .catch(console.error);
-    await wait(10000);
+    await wait(5000);
 
     const _Va = await page.$eval("body", (res) => {
       console.log(res);
