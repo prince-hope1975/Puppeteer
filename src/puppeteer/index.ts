@@ -87,7 +87,9 @@ export const verifyAsset = async (asset: string) => {
     page.setUserAgent(
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
     );
-    await page.goto(`https://www.nftexplorer.app/asset/${asset}/`);
+    await page.goto(`https://www.nftexplorer.app/asset/${asset}/`, {
+      timeout: 0,
+    });
 
     // Type into search box.
     //   await page.type(".devsite-search-field", "Headless Chrom e");
