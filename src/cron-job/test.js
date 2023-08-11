@@ -2,6 +2,6 @@
 import puppeteer from "puppeteer";
 import { getFloor } from "../puppeteer/index.js";
 
-const browser = await puppeteer.launch();
+const browser = await puppeteer.launch({ headless: "new" });
 const floor = await getFloor("algoatspfp", browser);
 console.log({ floor });
