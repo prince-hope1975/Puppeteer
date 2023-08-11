@@ -23,8 +23,8 @@ const Func = async () => {
   }
 };
 
-schedule("*/4 * * * *", () => {
-  Func()
+schedule("*/4 * * * *", async () => {
+  await Func()
     .then(() => {
       console.log({ res: "success" });
       console.log("Finishing Cron Job");

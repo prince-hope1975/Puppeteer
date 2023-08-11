@@ -5,7 +5,7 @@ export const getFloor = async (collection: string) => {
   try {
     z.string().parse(collection);
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ args: ["--enable-gpu"] });
 
     const page = await browser.newPage();
 
@@ -39,7 +39,6 @@ export const getFloor = async (collection: string) => {
       }, va)) || [];
 
     // Print all the files.
-    console.log(links.join("\n"));
 
     await browser.close();
     return [...links];
