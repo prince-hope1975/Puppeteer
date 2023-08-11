@@ -18,7 +18,6 @@ const app = express();
 
 // Get floor price by collection name
 
-import fs from "fs";
 
 app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");

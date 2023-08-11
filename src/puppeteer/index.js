@@ -1,7 +1,6 @@
 import puppeteer from "puppeteer";
 import { z } from "zod";
-export const browser = await puppeteer.launch({ args: ["--enable-gpu"] });
-export const getFloor = async (collection) => {
+export const getFloor = async (collection, browser) => {
     try {
         z.string().parse(collection);
         const page = await browser.newPage();
