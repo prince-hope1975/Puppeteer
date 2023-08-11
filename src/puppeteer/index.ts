@@ -30,9 +30,10 @@ export const getFloor = async (collection: string, browser: Browser) => {
     const allResultsSelector = "svg.text-primary";
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
-    await page
-      .waitForSelector(allResultsSelector, { timeout: 60000 })
-      .catch(console.error);
+    // await page
+    //   .waitForSelector(allResultsSelector, { timeout: 60000 })
+    //   .catch(console.error);
+    
     const va = await page.$$(allResultsSelector);
     console.log({ va });
 
