@@ -28,11 +28,11 @@ export const getFloor = async (collection: string, browser: Browser) => {
     const allResultsSelector = "svg.text-primary";
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
-    try {
-      await page.waitForSelector(".display-6", { timeout: 60000 });
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   await page.waitForSelector(".display-6", { timeout: 60000 });
+    // } catch (error) {
+    //   console.error(error);
+    // }
     //   .waitForSelector(allResultsSelector, { timeout: 60000 })
     //   .catch(console.error);
     await page.$eval("body", (res) => {
