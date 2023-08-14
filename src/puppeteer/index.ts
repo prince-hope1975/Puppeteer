@@ -21,13 +21,16 @@ export const getFloor = async (collection: string, browser: Browser) => {
     console.log("Started navigation to page");
     const statue = await page.goto(
       `https://www.nftexplorer.app/collection/${collection}/`,
-      { waitUntil: "networkidle0" }
+      {
+        // waitUntil: "networkidle0",
+        timeout: 120_000,
+      }
     );
     const content = await page.content();
     const _status = statue?.status();
     if (_status != 404) {
       console.log(`Probably HTTP response status code 200 OK.`);
-      console.log({content})
+      console.log({ content });
       //...
     }
     // Type into search box.
@@ -39,7 +42,7 @@ export const getFloor = async (collection: string, browser: Browser) => {
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
     try {
-      await page.waitForSelector(allResultsSelector, { timeout: 60000 });
+      await page.waitForSelector(allResultsSelector, { timeout: 120_000 });
     } catch (error) {
       console.error(error);
     }
@@ -47,13 +50,7 @@ export const getFloor = async (collection: string, browser: Browser) => {
     //   .catch(console.error);
     // await wait(5000);
 
-    const _Va = await page.$eval("body", (res) => {
-      console.log(res);
-      return res;
-    });
-
     const va = await page.$$(allResultsSelector);
-    console.log({ _Va });
 
     // Extract the results from the page.
     const links =
