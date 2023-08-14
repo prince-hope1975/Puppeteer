@@ -26,11 +26,9 @@ export const getFloor = async (collection: string, browser: Browser) => {
         timeout: 120_000,
       }
     );
-    const content = await page.content();
     const _status = statue?.status();
     if (_status != 404) {
       console.log(`Probably HTTP response status code 200 OK.`);
-      console.log({ content });
       //...
     }
     // Type into search box.
