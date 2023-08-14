@@ -23,7 +23,7 @@ export const getFloor = async (collection: string, browser: Browser) => {
       `https://www.nftexplorer.app/collection/${collection}/`,
       {
         // waitUntil: "networkidle0",
-        timeout: 120_000,
+        timeout: 240_000,
       }
     );
     const _status = statue?.status();
