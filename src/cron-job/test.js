@@ -4,7 +4,7 @@ import { getFloor } from "../puppeteer/index.js";
 
 const browser = await puppeteer.launch({
   headless: "new",
-//   executablePath: "/bin/chromium-browser",
+  executablePath: "/bin/chromium-browser",
 });
 console.log("Browser launched");
 const floor = await getFloor("algogods", browser);
