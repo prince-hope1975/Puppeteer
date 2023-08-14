@@ -31,7 +31,7 @@ export const getFloor = async (collection, browser) => {
         // const allResultsSelector = ".display-6";
         // await new Promise((resolve) => setTimeout(resolve, 10000));
         try {
-            await page.waitForSelector(allResultsSelector, { timeout: 120_000 });
+            await page.waitForSelector(allResultsSelector, { timeout: 240_000 });
         }
         catch (error) {
             console.error(error);
