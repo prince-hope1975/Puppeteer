@@ -3,7 +3,7 @@ import puppeteer from "puppeteer";
 import { getFloor } from "../puppeteer/index.js";
 
 const browser = await puppeteer.launch({
-  headless: "new",
+  headless: false,
   executablePath: "/bin/chromium-browser",
 });
 console.log("Browser launched");
