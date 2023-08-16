@@ -4,8 +4,8 @@ import { launch } from "puppeteer";
 (async () => {
   const browser = await launch({
     headless: true,
-    // args: ["--no-sandbox"],
-    // executablePath: "/bin/chromium-browser",
+    args: ["--no-sandbox"],
+    executablePath: "/bin/chromium-browser",
   });
   const page = await browser.newPage();
   console.log("Made new page");
