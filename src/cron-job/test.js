@@ -1,12 +1,15 @@
 // @ts-check
-import puppeteer from "puppeteer";
+import { launch } from "puppeteer";
+// import { getFloor } from "../puppeteer/index.js";
 import { getFloor } from "../puppeteer/index.js";
 
-const browser = await puppeteer.launch({
-  headless: "new",
-  executablePath: "/bin/chromium-browser",
-});
-console.log("Browser launched");
-const floor = await getFloor("algogods", browser);
-console.log({ floor });
-process.exit();
+(async () => {
+  const browser = await launch({
+    headless: true,
+    executablePath: "/bin/chromium-browser",
+  });
+  console.log("Browser launched");
+  const floor = await getFloor("algogods", browser);
+  console.log({ floor });
+  process.exit();
+})();

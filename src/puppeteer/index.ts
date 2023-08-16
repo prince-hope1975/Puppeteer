@@ -51,10 +51,13 @@ export const getFloor = async (collection: string, browser: Browser) => {
     const va = await page.$$(allResultsSelector);
 
     // Extract the results from the page.
+
     const links =
       (await page.evaluate(() => {
+        const docs = document?.querySelectorAll(".display-6");
+        console.log({ docs });
         // @ts-ignore
-        return [...document?.querySelectorAll(".display-6")]?.map((anchor) => {
+        return [...(docs || [])]?.map((anchor) => {
           const title = anchor?.textContent?.split("|")[0].trim();
           console.log({ title });
           return `${title}`;

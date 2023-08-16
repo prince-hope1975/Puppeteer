@@ -2,8 +2,8 @@
   "name": "puppeteer",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@reach-sh/stdlib": "^0.1.13-rc.3",
     "@types/node": "^18.11.17",
