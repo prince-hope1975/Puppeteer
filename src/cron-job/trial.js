@@ -4,7 +4,7 @@ import { launch } from "puppeteer";
   const browser = await launch({
     headless: "new",
     // args: ["--no-sandbox"],
-    executablePath: "/bin/chromium-browser",
+    // executablePath: "/bin/chromium-browser",
     args: ["--disable-setuid-sandbox"],
     ignoreHTTPSErrors: true,
   });
