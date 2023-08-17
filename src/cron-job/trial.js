@@ -2,7 +2,7 @@ import { launch } from "puppeteer";
 
 (async () => {
   const browser = await launch({
-    headless: "new",
+    headless: true,
     // args: ["--no-sandbox"],
     // executablePath: "/bin/chromium-browser",
     args: ["--disable-setuid-sandbox"],

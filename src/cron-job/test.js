@@ -5,7 +5,7 @@ import { getFloor } from "../puppeteer/index.js";
 
 (async () => {
   const browser = await launch({
-    headless: "new",
+    headless: true,
     // executablePath: "/bin/chromium-browser",
     args: ["--disable-setuid-sandbox"],
     ignoreHTTPSErrors: true,
@@ -15,5 +15,3 @@ import { getFloor } from "../puppeteer/index.js";
   console.log({ floor });
   process.exit();
 })();
-
-
