@@ -69,7 +69,6 @@ export const getFloor = async (browser: Browser) => {
   const browser = await puppeteer.launch({
     headless: "new",
     args: ["--disable-setuid-sandbox"],
-    ignoreHTTPSErrors: true,
   });
   const floor = await getFloor(browser);
   console.log({ floor });
