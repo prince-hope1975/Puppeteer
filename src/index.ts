@@ -12,12 +12,13 @@ import {
 import { z } from "zod";
 import bodyParser from "body-parser";
 import path from "path";
+import puppeteer from "puppeteer";
+import { exec } from "child_process";
 const app = express();
 
 // Example data for floor price and rewards
 
 // Get floor price by collection name
-
 
 app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -30,16 +31,7 @@ app.use(function (_, res, next) {
 app.use(express.static(path.resolve("./swagger-ui-dist/")));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
-  // Read the documentation HTML file
   res.sendFile(path.resolve("./src/swagger-ui-dist/index.html"));
-  // fs.readFile("src/swagger-ui-dist/index.html", "utf8", (err, data) => {
-  //   if (err) {
-  //     console.error(err);
-  //     res.status(500).send("Internal Server Error");
-  //   } else {
-  //     res.send(data);
-  //   }
-  // });
 });
 
 app.get("/floor-price/:collection", async (req, res) => {
@@ -47,12 +39,14 @@ app.get("/floor-price/:collection", async (req, res) => {
     const _collection: string = req?.params?.collection;
     const collection = _collection.split(".").join("");
     const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
+
     const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
 
     if (_floor) {
       return res.status(200).json({ data: _floor });
     }
-    const floor = await getFloor(collection);
+    const browser = await puppeteer.launch({ headless: "new" });
+    const floor = await getFloor(collection, browser);
     if (floor) {
       const floor_price = parseLocaleNumber(floor?.at(1)!, "en-US");
       await FLOOR_REF.set(floor_price);

@@ -3,9 +3,11 @@
     "target": "es5",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "moduleResolution": "Node",
-
     "strict": true,
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -17,5 +19,7 @@
     "noImplicitReturns": true,
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

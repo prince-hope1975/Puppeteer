@@ -1,17 +1,17 @@
-// @ts-check
-import { launch } from "puppeteer";
-// import { getFloor } from "../puppeteer/index.js";
-import { getFloor } from "../puppeteer/index.js";
+import { exec } from "child_process";
 
-(async () => {
-  const browser = await launch({
-    headless: true,
-    // executablePath: "/bin/chromium-browser",
-    args: ["--disable-setuid-sandbox"],
-    ignoreHTTPSErrors: true,
-  });
-  console.log("Browser launched");
-  const floor = await getFloor("algoatspfp", browser);
-  console.log({ floor });
-  process.exit();
-})();
+exec(
+  `docker run -i --init --cap-add=SYS_ADMIN --rm ghcr.io/puppeteer/puppeteer:latest node -e "$(cat src/start.js)"`,
+  ["---key", "hello"],
+  (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  }
+);

@@ -1,35 +1,28 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-import puppeteer from "puppeteer";
-import { z } from "zod";
-export function wait(ms, func) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return yield new Promise((resolve) => setTimeout(() => {
-            func && func(true);
-            resolve(null);
-        }, ms));
-    });
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.verifyAsset = exports.getFloor = exports.wait = void 0;
+const puppeteer_1 = require("puppeteer");
+const zod_1 = require("zod");
+async function wait(ms, func) {
+    return await new Promise((resolve) => setTimeout(() => {
+        func && func(true);
+        resolve(null);
+    }, ms));
 }
-export const getFloor = (collection, browser) => __awaiter(void 0, void 0, void 0, function* () {
+exports.wait = wait;
+const getFloor = async (collection, browser) => {
     try {
-        z.string().parse(collection);
-        const page = yield browser.newPage();
+        zod_1.z.string().parse(collection);
+        const page = await browser.newPage();
         console.log("Made new page");
         // await page.setDefaultNavigationTimeout(0);
-        yield page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
+        await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
         console.log("Started navigation to page");
-        const statue = yield page.goto(`https://www.nftexplorer.app/collection/${collection}/`, {
+        const statue = await page.goto(`https://www.nftexplorer.app/collection/${collection}/`, {
             // waitUntil: "networkidle0",
-            timeout: 240000,
+            timeout: 240_000,
         });
-        const _status = statue === null || statue === void 0 ? void 0 : statue.status();
+        const _status = statue?.status();
         if (_status != 404) {
             console.log(`Probably HTTP response status code 200 OK.`);
             //...
@@ -42,7 +35,7 @@ export const getFloor = (collection, browser) => __awaiter(void 0, void 0, void 
         // const allResultsSelector = ".display-6";
         // await new Promise((resolve) => setTimeout(resolve, 10000));
         try {
-            yield page.waitForSelector(allResultsSelector, { timeout: 240000 });
+            await page.waitForSelector(allResultsSelector, { timeout: 240_000 });
         }
         catch (error) {
             console.error(error);
@@ -50,16 +43,14 @@ export const getFloor = (collection, browser) => __awaiter(void 0, void 0, void 
         //   .waitForSelector(allResultsSelector, { timeout: 60000 })
         //   .catch(console.error);
         // await wait(5000);
-        const va = yield page.$$(allResultsSelector);
+        const va = await page.$$(allResultsSelector);
         // Extract the results from the page.
-        const links = (yield page.evaluate(() => {
-            var _a;
-            const docs = document === null || document === void 0 ? void 0 : document.querySelectorAll(".display-6");
+        const links = (await page.evaluate(() => {
+            const docs = document?.querySelectorAll(".display-6");
             console.log({ docs });
             // @ts-ignore
-            return (_a = [...(docs || [])]) === null || _a === void 0 ? void 0 : _a.map((anchor) => {
-                var _a;
-                const title = (_a = anchor === null || anchor === void 0 ? void 0 : anchor.textContent) === null || _a === void 0 ? void 0 : _a.split("|")[0].trim();
+            return [...(docs || [])]?.map((anchor) => {
+                const title = anchor?.textContent?.split("|")[0].trim();
                 console.log({ title });
                 return `${title}`;
             });
@@ -72,17 +63,18 @@ export const getFloor = (collection, browser) => __awaiter(void 0, void 0, void 
         console.error(error);
         return;
     }
-});
-export const verifyAsset = (asset) => __awaiter(void 0, void 0, void 0, function* () {
+};
+exports.getFloor = getFloor;
+const verifyAsset = async (asset) => {
     try {
-        z.string().parse(asset);
-        const browser = yield puppeteer.launch({
+        zod_1.z.string().parse(asset);
+        const browser = await puppeteer_1.default.launch({
             headless: true,
             args: ["--no-sandbox"],
         });
-        const page = yield browser.newPage();
+        const page = await browser.newPage();
         page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
-        yield page.goto(`https://www.nftexplorer.app/asset/${asset}/`, {
+        await page.goto(`https://www.nftexplorer.app/asset/${asset}/`, {
             timeout: 0,
         });
         // Type into search box.
@@ -92,9 +84,9 @@ export const verifyAsset = (asset) => __awaiter(void 0, void 0, void 0, function
         const allResultsSelector = 'div[style="font-size: 1.5rem;"]';
         // const allResultsSelector = ".display-6";
         // await new Promise((resolve) => setTimeout(resolve, 10000));
-        yield page.waitForSelector(allResultsSelector);
-        const elementHandle = yield page.$(allResultsSelector);
-        const textContent = yield page.evaluate((element) => element === null || element === void 0 ? void 0 : element.textContent, elementHandle);
+        await page.waitForSelector(allResultsSelector);
+        const elementHandle = await page.$(allResultsSelector);
+        const textContent = await page.evaluate((element) => element?.textContent, elementHandle);
         // Extract the results from the page.
         // const links =
         //   (await page.evaluate(() => {
@@ -106,7 +98,7 @@ export const verifyAsset = (asset) => __awaiter(void 0, void 0, void 0, function
         //   }, va)) || [];
         // Print all the files.
         // console.log(links.join("\n"));
-        yield browser.close();
+        await browser.close();
         console.log({ textContent });
         return textContent;
     }
@@ -114,4 +106,5 @@ export const verifyAsset = (asset) => __awaiter(void 0, void 0, void 0, function
         console.error(error);
         return;
     }
-});
+};
+exports.verifyAsset = verifyAsset;

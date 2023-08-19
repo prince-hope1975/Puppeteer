@@ -1,37 +1,44 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.viewAssetReward_testnet = exports.viewAssetClaimed_testnet = exports.viewAssetClaimed = exports.viewAssetReward = exports._reach = exports.reach = void 0;
 // @ts-ignore
-import * as _v3_backend from "../../builds/v3/index.main.mjs";
+const _v3_backend = require("../../builds/v3/index.main.mjs");
 // @ts-ignore
-import * as _v3_tokenBackend from "../../builds/v3/token.main.mjs";
-import dotenv from "dotenv";
-import { loadStdlib } from "@reach-sh/stdlib";
-export const reach = loadStdlib("ALGO");
-reach.setProviderByName("MainNet");
-export const _reach = loadStdlib("ALGO");
-_reach.setProviderByName("TestNet");
-dotenv.config();
-export const viewAssetReward = async (acc, ctcInfo, token, isToken) => {
-    const _acc = await reach.newAccountFromMnemonic(process?.env?.MNEMONIC || "");
-    const ctcUsers = _acc.contract(isToken ? _v3_tokenBackend : _v3_backend, reach.bigNumberToNumber(ctcInfo));
+const _v3_tokenBackend = require("../../builds/v3/token.main.mjs");
+const dotenv_1 = require("dotenv");
+const stdlib_1 = require("@reach-sh/stdlib");
+exports.reach = (0, stdlib_1.loadStdlib)("ALGO");
+exports.reach.setProviderByName("MainNet");
+exports._reach = (0, stdlib_1.loadStdlib)("ALGO");
+exports._reach.setProviderByName("TestNet");
+dotenv_1.default.config();
+const viewAssetReward = async (acc, ctcInfo, token, isToken) => {
+    const _acc = await exports.reach.newAccountFromMnemonic(process?.env?.MNEMONIC || "");
+    const ctcUsers = _acc.contract(isToken ? _v3_tokenBackend : _v3_backend, exports.reach.bigNumberToNumber(ctcInfo));
     const total = await ctcUsers?.unsafeViews?.Info?.userReward(acc, token);
     // console.log(total);
     return parseInt(total);
 };
-export const viewAssetClaimed = async (acc, ctcInfo, token, isToken) => {
-    const _acc = await reach.newAccountFromMnemonic(process?.env?.MNEMONIC || "");
-    const ctcUsers = _acc.contract(isToken ? _v3_tokenBackend : _v3_backend, reach.bigNumberToNumber(ctcInfo));
+exports.viewAssetReward = viewAssetReward;
+const viewAssetClaimed = async (acc, ctcInfo, token, isToken) => {
+    const _acc = await exports.reach.newAccountFromMnemonic(process?.env?.MNEMONIC || "");
+    const ctcUsers = _acc.contract(isToken ? _v3_tokenBackend : _v3_backend, exports.reach.bigNumberToNumber(ctcInfo));
     const total = await ctcUsers?.unsafeViews?.Info?.claimed(acc, token);
     return parseInt(total);
 };
-export const viewAssetClaimed_testnet = async (acc, ctcInfo, token, isToken) => {
-    const _acc = await _reach.newAccountFromMnemonic(process?.env?.MNEMONIC || "");
-    const ctcUsers = _acc.contract(isToken ? _v3_tokenBackend : _v3_backend, reach.bigNumberToNumber(ctcInfo));
+exports.viewAssetClaimed = viewAssetClaimed;
+const viewAssetClaimed_testnet = async (acc, ctcInfo, token, isToken) => {
+    const _acc = await exports._reach.newAccountFromMnemonic(process?.env?.MNEMONIC || "");
+    const ctcUsers = _acc.contract(isToken ? _v3_tokenBackend : _v3_backend, exports.reach.bigNumberToNumber(ctcInfo));
     const total = await ctcUsers?.unsafeViews?.Info?.claimed(acc, token);
     return parseInt(total);
 };
-export const viewAssetReward_testnet = async (acc, ctcInfo, token, isToken) => {
-    const _acc = await _reach.newAccountFromMnemonic(process?.env?.MNEMONIC || "");
-    const ctcUsers = _acc.contract(isToken ? _v3_tokenBackend : _v3_backend, reach.bigNumberToNumber(ctcInfo));
+exports.viewAssetClaimed_testnet = viewAssetClaimed_testnet;
+const viewAssetReward_testnet = async (acc, ctcInfo, token, isToken) => {
+    const _acc = await exports._reach.newAccountFromMnemonic(process?.env?.MNEMONIC || "");
+    const ctcUsers = _acc.contract(isToken ? _v3_tokenBackend : _v3_backend, exports.reach.bigNumberToNumber(ctcInfo));
     const total = await ctcUsers?.unsafeViews?.Info?.userReward(acc, token);
     // console.log(total);
     return parseInt(total);
 };
+exports.viewAssetReward_testnet = viewAssetReward_testnet;
