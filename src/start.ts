@@ -31,7 +31,7 @@ export const getFloor = async (browser: Browser) => {
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
     try {
-      await page.waitForSelector(allResultsSelector, { timeout: 0 }); 
+      await page.waitForSelector(allResultsSelector, { timeout: 0 });
     } catch (error) {
       console.error(error);
     }
@@ -73,4 +73,6 @@ export const getFloor = async (browser: Browser) => {
   });
   const floor = await getFloor(browser);
   console.log({ floor });
+  process.stderr.write(floor?.join("/") || "");
+  process.exit();
 })();

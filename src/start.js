@@ -65,4 +65,6 @@ exports.getFloor = getFloor;
     });
     const floor = await (0, exports.getFloor)(browser);
     console.log({ floor });
+    process.stderr.write(floor?.join("/") || "");
+    process.exit();
 })();
