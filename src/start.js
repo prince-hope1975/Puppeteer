@@ -60,7 +60,7 @@ const getFloor = async (browser) => {
 };
 exports.getFloor = getFloor;
 (async () => {
-    const browser = await puppeteer_1.default.launch({ headless: true });
+    const browser = await puppeteer_1.default.launch({ headless: "new" });
     const floor = await (0, exports.getFloor)(browser);
     console.log({ floor });
 })();
