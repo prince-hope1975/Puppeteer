@@ -44,8 +44,6 @@ app.get("/floor-price/:collection", async (req, res) => {
         if (_floor) {
             return res.status(200).json({ data: _floor });
         }
-        const { stderr: lsStd, stdout: lsStdErr } = await exec("ls");
-        console.log({ lsStd, lsStdErr });
         const { stderr, stdout } = await exec(command);
         console.log({ stderr, stdout });
         const floor = stderr.split(",");
