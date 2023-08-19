@@ -67,8 +67,8 @@ export const getFloor = async (browser: Browser) => {
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: "new",
-    // args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    // headless: "new",
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
     // args: ["--disable-setuid-sandbox"],
   });
   const floor = await getFloor(browser);

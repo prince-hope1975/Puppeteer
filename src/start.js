@@ -59,8 +59,8 @@ const getFloor = async (browser) => {
 exports.getFloor = getFloor;
 (async () => {
     const browser = await puppeteer_1.default.launch({
-        headless: "new",
-        // args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        // headless: "new",
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
         // args: ["--disable-setuid-sandbox"],
     });
     const floor = await (0, exports.getFloor)(browser);
