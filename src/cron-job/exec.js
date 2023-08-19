@@ -2,7 +2,7 @@ import util from "node:util";
 import { exec as _exec } from "child_process";
 const exec = util.promisify(_exec);
 const envVariables = {
-    KEY: "hello", // Example variable
+    KEY: "algoatspfp", // Example variable
 };
 const envVariableArgs = Object.keys(envVariables)
     .map((key) => `-e ${key}=${envVariables["KEY"]}`)

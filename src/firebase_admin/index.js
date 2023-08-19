@@ -1,35 +1,31 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeToDb = exports.doesSnapshopExist = exports.readDataFromSnapShots_preserve = exports.readDataFromSnapShots = exports.readDataFromSnapShot = exports.dBase = exports.db = void 0;
-const staking_f1d33_firebase_adminsdk_hnz9e_f2e618a564_json_1 = require("../../staking-f1d33-firebase-adminsdk-hnz9e-f2e618a564.json");
-const firebase_admin_1 = require("firebase-admin");
-const database_1 = require("firebase-admin/database");
+import serviceAccount from "../../staking-f1d33-firebase-adminsdk-hnz9e-f2e618a564.json" assert { type: "json" };
+import admin from "firebase-admin";
+import { getDatabase } from "firebase-admin/database";
 // import { ref, set, onValue, get, child } from "firebase/database";
 // Fetch the service account key JSON file contents
 // const serviceAccount = require("../../staking-f1d33-firebase-adminsdk-hnz9e-f2e618a564.json");
 // Initialize the app with a service account, granting admin privileges
 try {
-    firebase_admin_1.default.initializeApp({
+    admin.initializeApp({
         // credential: applicationDefault(),
-        credential: firebase_admin_1.default.credential.cert(staking_f1d33_firebase_adminsdk_hnz9e_f2e618a564_json_1.default),
+        credential: admin.credential.cert(serviceAccount),
         // The database URL depends on the location of the database
         databaseURL: "https://staking-f1d33-default-rtdb.firebaseio.com/",
     });
 }
 catch (error) {
-    firebase_admin_1.default.app();
+    admin.app();
 }
 // As an admin, the app has access to read and write all data, regardless of Security Rules
-exports.db = firebase_admin_1.default.database();
-exports.dBase = (0, database_1.getDatabase)();
-async function readDataFromSnapShot(ref) {
+export const db = admin.database();
+export const dBase = getDatabase();
+export async function readDataFromSnapShot(ref) {
     const snapShot = await ref.once("value", function (snapshot) {
         return snapshot.val();
     });
     return snapShot.val();
 }
-exports.readDataFromSnapShot = readDataFromSnapShot;
-async function readDataFromSnapShots(...ref) {
+export async function readDataFromSnapShots(...ref) {
     const snapShot = ref.map((ref) => {
         return ref.once("value", function (snapshot) {
             return snapshot.val();
@@ -46,8 +42,7 @@ async function readDataFromSnapShots(...ref) {
         .filter((snap) => snap !== null);
     return res;
 }
-exports.readDataFromSnapShots = readDataFromSnapShots;
-async function readDataFromSnapShots_preserve(...ref) {
+export async function readDataFromSnapShots_preserve(...ref) {
     const snapShot = ref.map((ref) => {
         return ref.once("value", function (snapshot) {
             return snapshot.val();
@@ -62,15 +57,13 @@ async function readDataFromSnapShots_preserve(...ref) {
     });
     return res;
 }
-exports.readDataFromSnapShots_preserve = readDataFromSnapShots_preserve;
-const doesSnapshopExist = async (Ref) => {
+export const doesSnapshopExist = async (Ref) => {
     const snapShot = await Ref.once("value", (snapshot) => {
         return snapshot.exists();
     });
     return snapShot.exists();
 };
-exports.doesSnapshopExist = doesSnapshopExist;
-async function writeToDb({ ref, data }) {
+export async function writeToDb({ ref, data }) {
     try {
         await ref.set(data);
     }
@@ -78,4 +71,3 @@ async function writeToDb({ ref, data }) {
         console.log(error);
     }
 }
-exports.writeToDb = writeToDb;

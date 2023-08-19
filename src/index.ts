@@ -13,7 +13,9 @@ import { z } from "zod";
 import bodyParser from "body-parser";
 import path from "path";
 import puppeteer from "puppeteer";
-import { exec } from "child_process";
+import util from "node:util";
+import { exec as _exec } from "child_process";
+const exec = util.promisify(_exec);
 const app = express();
 
 // Example data for floor price and rewards
@@ -37,6 +39,17 @@ app.get("/", (_, res) => {
 app.get("/floor-price/:collection", async (req, res) => {
   try {
     const _collection: string = req?.params?.collection;
+
+    const envVariables = {
+      KEY: _collection, // Example variable
+    };
+
+    const envVariableArgs = Object.keys(envVariables)
+      .map((key) => `-e ${key}=${envVariables["KEY"]}`)
+      .join(" ");
+
+    const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat src/start.js)"`;
+
     const collection = _collection.split(".").join("");
     const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
 
@@ -45,9 +58,10 @@ app.get("/floor-price/:collection", async (req, res) => {
     if (_floor) {
       return res.status(200).json({ data: _floor });
     }
-    const browser = await puppeteer.launch({ headless: "new" });
-    const floor = await getFloor(collection, browser);
-    if (floor) {
+    const { stderr, stdout } = await exec(command);
+    console.log({ stderr, stdout });
+    const floor = stderr.split(",");
+    if (floor && floor.length > 1) {
       const floor_price = parseLocaleNumber(floor?.at(1)!, "en-US");
       await FLOOR_REF.set(floor_price);
       return res.json({ data: floor_price });

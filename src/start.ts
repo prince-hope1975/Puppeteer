@@ -1,8 +1,7 @@
 import puppeteer, { Browser } from "puppeteer";
 const key = process.env.KEY;
-console.log({ key });
 
-export const getFloor = async (collection: string, browser: Browser) => {
+export const getFloor = async (browser: Browser) => {
   try {
     const page = await browser.newPage();
     console.log("Made new page");
@@ -12,7 +11,7 @@ export const getFloor = async (collection: string, browser: Browser) => {
     );
     console.log("Started navigation to page");
     const statue = await page.goto(
-      `https://www.nftexplorer.app/collection/${collection}/`,
+      `https://www.nftexplorer.app/collection/${key}/`,
       {
         // waitUntil: "networkidle0",
         timeout: 240_000,
@@ -68,6 +67,6 @@ export const getFloor = async (collection: string, browser: Browser) => {
 
 (async () => {
   const browser = await puppeteer.launch({ headless: "new" });
-  const floor = await getFloor("algoatspfp", browser);
+  const floor = await getFloor(browser);
   console.log({ floor });
 })();

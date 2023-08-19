@@ -4,7 +4,7 @@ exports.getFloor = void 0;
 const puppeteer_1 = require("puppeteer");
 const key = process.env.KEY;
 console.log({ key });
-const getFloor = async (collection, browser) => {
+const getFloor = async (browser) => {
   try {
     const page = await browser.newPage();
     console.log("Made new page");
@@ -64,9 +64,9 @@ const getFloor = async (collection, browser) => {
 exports.getFloor = getFloor;
 (async () => {
   const browser = await puppeteer_1.default.launch({ headless: "new" });
-  const floor = await (0, exports.getFloor)("algoatspfp", browser);
+  const floor = await (0, exports.getFloor)(browser);
   console.log({ floor });
   process.stdout.write("I will goto the STDOUT");
-  process.stderr.write(floor?.join(",")||"Nothing showed up");
+  process.stderr.write(floor?.join(",") || "Nothing showed up");
   process.exit(0);
 })();

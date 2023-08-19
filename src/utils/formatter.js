@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseLocaleNumber = void 0;
-function parseLocaleNumber(stringNumber, locale) {
+export function parseLocaleNumber(stringNumber, locale) {
     let thousandSeparator = Intl.NumberFormat(locale)
         .format(11111)
         .replace(/\p{Number}/gu, "");
@@ -12,4 +9,3 @@ function parseLocaleNumber(stringNumber, locale) {
         .replace(new RegExp("\\" + thousandSeparator, "g"), "")
         .replace(new RegExp("\\" + decimalSeparator), "."));
 }
-exports.parseLocaleNumber = parseLocaleNumber;

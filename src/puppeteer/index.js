@@ -1,18 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyAsset = exports.getFloor = exports.wait = void 0;
-const puppeteer_1 = require("puppeteer");
-const zod_1 = require("zod");
-async function wait(ms, func) {
+import puppeteer from "puppeteer";
+import { z } from "zod";
+export async function wait(ms, func) {
     return await new Promise((resolve) => setTimeout(() => {
         func && func(true);
         resolve(null);
     }, ms));
 }
-exports.wait = wait;
-const getFloor = async (collection, browser) => {
+export const getFloor = async (collection, browser) => {
     try {
-        zod_1.z.string().parse(collection);
+        z.string().parse(collection);
         const page = await browser.newPage();
         console.log("Made new page");
         // await page.setDefaultNavigationTimeout(0);
@@ -64,11 +60,10 @@ const getFloor = async (collection, browser) => {
         return;
     }
 };
-exports.getFloor = getFloor;
-const verifyAsset = async (asset) => {
+export const verifyAsset = async (asset) => {
     try {
-        zod_1.z.string().parse(asset);
-        const browser = await puppeteer_1.default.launch({
+        z.string().parse(asset);
+        const browser = await puppeteer.launch({
             headless: true,
             args: ["--no-sandbox"],
         });
@@ -107,4 +102,3 @@ const verifyAsset = async (asset) => {
         return;
     }
 };
-exports.verifyAsset = verifyAsset;
