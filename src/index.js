@@ -34,7 +34,7 @@ app.get("/floor-price/:collection", async (req, res) => {
         const envVariableArgs = Object.keys(envVariables)
             .map((key) => `-e ${key}=${envVariables["KEY"]}`)
             .join(" ");
-        const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ./start.js)"`;
+        const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat /src/start.js)"`;
         // !This works only on my local machine
         // Once it's on the sever it fails proably due to the way the directory is read
         // const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ./src/start.js)"`;
@@ -44,6 +44,8 @@ app.get("/floor-price/:collection", async (req, res) => {
         if (_floor) {
             return res.status(200).json({ data: _floor });
         }
+        const { stderr: lsStd, stdout: lsStdErr } = await exec("ls");
+        console.log({ lsStd, lsStdErr });
         const { stderr, stdout } = await exec(command);
         console.log({ stderr, stdout });
         const floor = stderr.split(",");
