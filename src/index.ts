@@ -72,11 +72,13 @@ app.get("/floor-price/:collection", async (req, res) => {
       return res.status(404).json({ error: "Collection not found" });
     }
   } catch (error: any) {
+    console.error(error);
     if (error?.message) {
-      const data = JSON.parse(error?.message);
-      return res
-        .status(500)
-        .json({ error: `${data?.[0]?.code} expected ${data?.[0]?.expected}` });
+      // const data = JSON.parse(error?.message);
+      return res.status(500).json({ error: `${error.message}` });
+      // return res
+      //   .status(500)
+      //   .json({ error: `${data?.[0]?.code} expected ${data?.[0]?.expected}` });
     }
     return res.status(500).json({ err: "failed" });
   }
