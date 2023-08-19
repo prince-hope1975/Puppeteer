@@ -48,7 +48,7 @@ app.get("/floor-price/:collection", async (req, res) => {
       .map((key) => `-e ${key}=${envVariables["KEY"]}`)
       .join(" ");
 
-    const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat src/start.js)"`;
+    const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ./src/start.js)"`;
 
     const collection = _collection.split(".").join("");
     const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
