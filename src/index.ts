@@ -64,7 +64,7 @@ app.get("/floor-price/:collection", async (req, res) => {
 
     const { stderr, stdout } = await exec(command);
     console.log({ stderr, stdout });
-    const floor = stderr.split("/");
+    const floor = stdout.split("/");
     if (floor && floor.length > 1) {
       const floor_price = parseLocaleNumber(floor?.at(1)!, "en-US");
       await FLOOR_REF.set(floor_price);
