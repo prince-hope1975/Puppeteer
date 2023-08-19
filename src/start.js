@@ -1,6 +1,9 @@
-import puppeteer from "puppeteer";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getFloor = void 0;
+const puppeteer_1 = require("puppeteer");
 const key = process.env.KEY;
-export const getFloor = async (browser) => {
+const getFloor = async (browser) => {
     try {
         const page = await browser.newPage();
         console.log("Made new page");
@@ -53,8 +56,9 @@ export const getFloor = async (browser) => {
         return;
     }
 };
+exports.getFloor = getFloor;
 (async () => {
-    const browser = await puppeteer.launch({ headless: true });
-    const floor = await getFloor(browser);
+    const browser = await puppeteer_1.default.launch({ headless: true });
+    const floor = await (0, exports.getFloor)(browser);
     console.log({ floor });
 })();
