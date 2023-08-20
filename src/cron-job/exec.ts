@@ -1,7 +1,7 @@
 import util from "node:util";
 import { exec as _exec } from "child_process";
+import path from "node:path";
 // const exec = util.promisify(_exec);
-
 
 // (async () => {
 //   const { stderr, stdout } = await exec(command);
@@ -18,7 +18,8 @@ export const execGetFloor = async (
     .map((key) => `-e ${key}=${envVariables["KEY"]}`)
     .join(" ");
 
-  const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat src/start.js)"`;
+  const _path = path.resolve(`src/start.js`);
+  const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ${_path})"`;
 
   return await new Promise((resolve, reject) => {
     _exec(command, (error, stdout, stderr) => {
