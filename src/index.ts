@@ -14,6 +14,7 @@ import bodyParser from "body-parser";
 import path from "path";
 import util from "node:util";
 import { exec as _exec } from "child_process";
+import { execGetFloor } from "./cron-job/exec.js";
 const exec = util.promisify(_exec);
 const app = express();
 
@@ -62,7 +63,7 @@ app.get("/floor-price/:collection", async (req, res) => {
       return res.status(200).json({ data: _floor });
     }
 
-    const { stderr, stdout } = await exec(command);
+    const { stderr, stdout } = await execGetFloor(collection);
     console.log({ stderr, stdout });
     const floor = stdout.split("/");
     if (floor && floor.length > 1) {
