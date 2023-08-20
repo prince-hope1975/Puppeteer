@@ -14,7 +14,6 @@ import bodyParser from "body-parser";
 import path from "path";
 import util from "node:util";
 import { exec as _exec } from "child_process";
-import { execGetFloor } from "./cron-job/exec.js";
 const exec = util.promisify(_exec);
 const app = express();
 
@@ -40,6 +39,16 @@ app.get("/floor-price/:collection", async (req, res) => {
   try {
     const _collection: string = req?.params?.collection;
 
+    const envVariables = {
+      KEY: _collection, // Example variable
+    };
+    const _path = path.resolve(`src/start.js`);
+    console.log({ _path });
+    const envVariableArgs = Object.keys(envVariables)
+      .map((key) => `-e ${key}=${envVariables["KEY"]}`)
+      .join(" ");
+
+    const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ${_path})"`;
     // !This works only on my local machine
     // Once it's on the sever it fails proably due to the way the directory is read
     // const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ./src/start.js)"`;
@@ -53,7 +62,7 @@ app.get("/floor-price/:collection", async (req, res) => {
       return res.status(200).json({ data: _floor });
     }
 
-    const { stderr, stdout } = await execGetFloor(collection);
+    const { stderr, stdout } = await exec(command);
     console.log({ stderr, stdout });
     const floor = stdout.split("/");
     if (floor && floor.length > 1) {
