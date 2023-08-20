@@ -4,6 +4,7 @@ const key = process.env.KEY;
 export const getFloor = async (browser: Browser) => {
   try {
     const page = await browser.newPage();
+
     // console.error("Made new page");
     await page.setDefaultNavigationTimeout(0);
     await page.setUserAgent(
@@ -19,7 +20,7 @@ export const getFloor = async (browser: Browser) => {
     );
     const _status = statue?.status();
     if (_status != 404) {
-      console.error(`Probably HTTP response status code 200 OK.`);
+      // console.error(`Probably HTTP response status code 200 OK.`);
       //...
     }
     // Type into search box.
@@ -67,12 +68,16 @@ export const getFloor = async (browser: Browser) => {
 
 (async () => {
   const browser = await puppeteer.launch({
-    // headless: "new",
+    headless: "new",
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
     // args: ["--disable-setuid-sandbox"],
   });
   const floor = await getFloor(browser);
-  console.error({ floor });
+  console.log({ floor });
   process.stdout.write(floor?.join("/") || "");
-  process.exit();
+  // process.exit(0);
+  // process.exit
+  return;
+  
 })();
+// process.exit(0);

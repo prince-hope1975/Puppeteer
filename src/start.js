@@ -16,7 +16,7 @@ const getFloor = async (browser) => {
         });
         const _status = statue?.status();
         if (_status != 404) {
-            console.error(`Probably HTTP response status code 200 OK.`);
+            // console.error(`Probably HTTP response status code 200 OK.`);
             //...
         }
         // Type into search box.
@@ -59,12 +59,15 @@ const getFloor = async (browser) => {
 exports.getFloor = getFloor;
 (async () => {
     const browser = await puppeteer_1.default.launch({
-        // headless: "new",
+        headless: "new",
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
         // args: ["--disable-setuid-sandbox"],
     });
     const floor = await (0, exports.getFloor)(browser);
-    console.error({ floor });
+    console.log({ floor });
     process.stdout.write(floor?.join("/") || "");
-    process.exit();
+    // process.exit(0);
+    // process.exit
+    return;
 })();
+// process.exit(0);
