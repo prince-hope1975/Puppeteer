@@ -5,7 +5,10 @@ export const getFloor = async (collection: string) => {
   try {
     z.string().parse(collection);
 
-    const browser = await puppeteer.launch({});
+    const browser = await puppeteer.launch({
+      headless: "new",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
 
     const page = await browser.newPage();
 
