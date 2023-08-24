@@ -16,22 +16,15 @@ while true; do
   # Check if the content has changed
   if [ "$current_content" != "$prev_content" ]; then
     # Extract the specific content (replace with your extraction logic)
-    extracted_keys=$(echo "$current_content" | jq -r 'keys[]')
+    extracted_key=$(echo "$current_content" | jq -r '.current')
 
-    # Loop through extracted keys and run the Docker command for each key
-    echo "$extracted_keys" | while IFS= read -r extracted_key; do
-      # Run the Docker command with the extracted key as the environment variable
-      docker_output=$(docker run -i --init --cap-add=SYS_ADMIN --rm -e KEY="$extracted_key" ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ./start.js)")
-      
-      # Print the Docker command's output
-      echo "Output for key $extracted_key:"
-      echo "$docker_output"
-      continue
-    done
+    # Run the Docker command with the extracted key as the environment variable
+    docker run -i --init --cap-add=SYS_ADMIN --rm -e KEY="$extracted_key" ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ./start.js)"
 
     # Update the previous content
     prev_content="$current_content"
   fi
+
 
   # Wait for a period of time before checking again
   sleep 10
