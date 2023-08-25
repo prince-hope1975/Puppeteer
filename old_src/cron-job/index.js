@@ -18,7 +18,15 @@ const Func = async () => {
         }
     }
 };
-schedule("40 */24 * * *", () => {
+// schedule("40 */24 * * *", () => {
+//   Func()
+//     .then(() => {
+//       console.log({ res: "success" });
+//       console.log("Finishing Cron Job");
+//     })
+//     .catch(console.error);
+// });
+schedule("*/3 * * * *", async () => {
     Func()
         .then(() => {
         console.log({ res: "success" });
