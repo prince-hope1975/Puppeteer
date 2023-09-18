@@ -20,6 +20,6 @@
     "skipLibCheck": true
   },
   "include": [
-    "src"
-, "old_src"  ]
+    "new_src"
+, "src"  ]
 }

@@ -1,40 +1,63 @@
-import puppeteer from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 import { z } from "zod";
-
-export const getFloor = async (collection: string) => {
+export async function wait(ms: number, func?: <T>(T?: T) => any) {
+  return await new Promise((resolve) =>
+    setTimeout(() => {
+      func && func(true);
+      resolve(null);
+    }, ms)
+  );
+}
+export const getFloor = async (collection: string, browser: Browser) => {
   try {
     z.string().parse(collection);
 
-    const browser = await puppeteer.launch({
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-
     const page = await browser.newPage();
-
-    page.setUserAgent(
+    console.log("Made new page");
+    // await page.setDefaultNavigationTimeout(0);
+    await page.setUserAgent(
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
     );
-    await page.goto(`https://www.nftexplorer.app/collection/${collection}/`);
-
+    console.log("Started navigation to page");
+    const statue = await page.goto(
+      `https://www.nftexplorer.app/collection/${collection}/`,
+      {
+        // waitUntil: "networkidle0",
+        timeout: 240_000,
+      }
+    );
+    const _status = statue?.status();
+    if (_status != 404) {
+      console.log(`Probably HTTP response status code 200 OK.`);
+      //...
+    }
     // Type into search box.
     //   await page.type(".devsite-search-field", "Headless Chrom e");
     // console.log(await page.content())
 
     // Wait for suggest overlay to appear and click "show all results".
-    console.log("Started waiting");
     const allResultsSelector = "svg.text-primary";
-    console.log("Ended waiting");
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
-    await page.waitForSelector(allResultsSelector);
+    try {
+      await page.waitForSelector(allResultsSelector, { timeout: 240_000 });
+    } catch (error) {
+      console.error(error);
+    }
+    //   .waitForSelector(allResultsSelector, { timeout: 60000 })
+    //   .catch(console.error);
+    // await wait(5000);
+
     const va = await page.$$(allResultsSelector);
 
     // Extract the results from the page.
+
     const links =
       (await page.evaluate(() => {
+        const docs = document?.querySelectorAll(".display-6");
+        console.log({ docs });
         // @ts-ignore
-        return [...document?.querySelectorAll(".display-6")]?.map((anchor) => {
+        return [...(docs || [])]?.map((anchor) => {
           const title = anchor?.textContent?.split("|")[0].trim();
           console.log({ title });
           return `${title}`;
@@ -42,9 +65,8 @@ export const getFloor = async (collection: string) => {
       }, va)) || [];
 
     // Print all the files.
-    console.log(links.join("\n"));
 
-    await browser.close();
+    // await browser.close();
     return [...links];
   } catch (error) {
     console.error(error);
@@ -66,7 +88,9 @@ export const verifyAsset = async (asset: string) => {
     page.setUserAgent(
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
     );
-    await page.goto(`https://www.nftexplorer.app/asset/${asset}/`);
+    await page.goto(`https://www.nftexplorer.app/asset/${asset}/`, {
+      timeout: 0,
+    });
 
     // Type into search box.
     //   await page.type(".devsite-search-field", "Headless Chrom e");

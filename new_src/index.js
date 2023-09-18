@@ -1,14 +1,17 @@
 import express from "express";
-import { getFloor, verifyAsset } from "./puppeteer/index.js";
+import { verifyAsset } from "./puppeteer/index.js";
 import { db, readDataFromSnapShots_preserve } from "./firebase_admin/index.js";
 import { parseLocaleNumber } from "./utils/formatter.js";
 import { reach, viewAssetClaimed, viewAssetClaimed_testnet, viewAssetReward, viewAssetReward_testnet, } from "./utils/reach/index.js";
 import { z } from "zod";
 import bodyParser from "body-parser";
+import path from "path";
+import util from "node:util";
+import { exec as _exec } from "child_process";
+const exec = util.promisify(_exec);
 const app = express();
 // Example data for floor price and rewards
 // Get floor price by collection name
-import fs from "fs";
 app.use(function (_, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -16,31 +19,37 @@ app.use(function (_, res, next) {
     res.setHeader("Access-Control-Allow-Credentials", "true");
     next();
 });
-app.use(express.static("src/swagger-ui-dist"));
+// app.use(express.static("/src/swagger-ui-dist/"));
+app.use(express.static(path.resolve("./swagger-ui-dist/")));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
-    // Read the documentation HTML file
-    fs.readFile("src/swagger-ui-dist/index.html", "utf8", (err, data) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        }
-        else {
-            res.send(data);
-        }
-    });
+    res.sendFile(path.resolve("./src/swagger-ui-dist/index.html"));
 });
 app.get("/floor-price/:collection", async (req, res) => {
     try {
         const _collection = req?.params?.collection;
+        const envVariables = {
+            KEY: _collection, // Example variable
+        };
+        const _path = path.resolve(`src/start.js`);
+        console.log({ _path });
+        const envVariableArgs = Object.keys(envVariables)
+            .map((key) => `-e ${key}=${envVariables["KEY"]}`)
+            .join(" ");
+        const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ${_path})"`;
+        // !This works only on my local machine
+        // Once it's on the sever it fails proably due to the way the directory is read
+        // const command = `docker run -i --init --cap-add=SYS_ADMIN --rm ${envVariableArgs} ghcr.io/puppeteer/puppeteer:latest node -e "$(cat ./src/start.js)"`;
         const collection = _collection.split(".").join("");
         const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
         const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
         if (_floor) {
             return res.status(200).json({ data: _floor });
         }
-        const floor = await getFloor(collection);
-        if (floor) {
+        const { stderr, stdout } = await exec(command);
+        console.log({ stderr, stdout });
+        const floor = stdout.split("/");
+        if (floor && floor.length > 1) {
             const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
             await FLOOR_REF.set(floor_price);
             return res.json({ data: floor_price });
@@ -50,11 +59,13 @@ app.get("/floor-price/:collection", async (req, res) => {
         }
     }
     catch (error) {
+        console.error(error);
         if (error?.message) {
-            const data = JSON.parse(error?.message);
-            return res
-                .status(500)
-                .json({ error: `${data?.[0]?.code} expected ${data?.[0]?.expected}` });
+            // const data = JSON.parse(error?.message);
+            return res.status(500).json({ error: `${error.message}` });
+            // return res
+            //   .status(500)
+            //   .json({ error: `${data?.[0]?.code} expected ${data?.[0]?.expected}` });
         }
         return res.status(500).json({ err: "failed" });
     }
