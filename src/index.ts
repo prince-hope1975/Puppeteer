@@ -18,6 +18,7 @@ const app = express();
 // Get floor price by collection name
 
 import fs from "fs";
+import path from "path";
 
 app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -26,18 +27,12 @@ app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
-app.use(express.static("src/swagger-ui-dist"));
+const _path = path.resolve(`src/`);
+
+app.use(express.static(`${_path}/swagger-ui-dist`));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
-  // Read the documentation HTML file
-  fs.readFile("src/swagger-ui-dist/index.html", "utf8", (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Internal Server Error");
-    } else {
-      res.send(data);
-    }
-  });
+  res.sendFile(path.resolve("./src/swagger-ui-dist/index.html"));
 });
 
 app.get("/floor-price/:collection", async (req, res) => {
