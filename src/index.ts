@@ -17,7 +17,6 @@ const app = express();
 
 // Get floor price by collection name
 
-import fs from "fs";
 import path from "path";
 
 app.use(function (_, res, next) {
@@ -32,8 +31,8 @@ const _path = path.resolve(`src/`);
 app.use(express.static(`${_path}/swagger-ui-dist`));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
-  console.log("dirname", path.dirname);
-  res.sendFile(path.resolve("/swagger-ui-dist/index.html"));
+  console.log("dirname", _path);
+  res.sendFile(path.resolve(`${_path}/swagger-ui-dist/index.html`));
 });
 
 app.get("/floor-price/:collection", async (req, res) => {

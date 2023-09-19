@@ -6,6 +6,8 @@ import { reach, viewAssetClaimed, viewAssetClaimed_testnet, viewAssetReward, vie
 import { z } from "zod";
 import bodyParser from "body-parser";
 const app = express();
+// Example data for floor price and rewards
+// Get floor price by collection name
 import path from "path";
 app.use(function (_, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -18,8 +20,8 @@ const _path = path.resolve(`src/`);
 app.use(express.static(`${_path}/swagger-ui-dist`));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
-    console.log("dirname", path.dirname);
-    res.sendFile(path.resolve("/swagger-ui-dist/index.html"));
+    console.log("dirname", _path);
+    res.sendFile(path.resolve(`${_path}/swagger-ui-dist/index.html`));
 });
 app.get("/floor-price/:collection", async (req, res) => {
     try {
@@ -57,7 +59,7 @@ app.get("/asset/:assetID", async (req, res) => {
         const ASSET_REF = db.ref(`verifiedAssets/${asset}`);
         const [_assetID] = await readDataFromSnapShots_preserve(ASSET_REF);
         if (_assetID) {
-            return res.status(200). json({ data: _assetID });
+            return res.status(200).json({ data: _assetID });
         }
         const assetCollection = await verifyAsset(asset);
         if (assetCollection) {
