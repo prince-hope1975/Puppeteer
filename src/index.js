@@ -57,7 +57,7 @@ app.get("/asset/:assetID", async (req, res) => {
         const ASSET_REF = db.ref(`verifiedAssets/${asset}`);
         const [_assetID] = await readDataFromSnapShots_preserve(ASSET_REF);
         if (_assetID) {
-            return res.status(200).json({ data: _assetID });
+            return res.status(200). json({ data: _assetID });
         }
         const assetCollection = await verifyAsset(asset);
         if (assetCollection) {

@@ -31,9 +31,9 @@ app.use(function (_, res, next) {
 // app.use(express.static("/src/swagger-ui-dist/"));
 app.use(express.static(path.resolve("./swagger-ui-dist/")));
 // Endpoint for serving documentation
-app.get("/", (_, res) => {
-  res.sendFile(path.resolve("./src/swagger-ui-dist/index.html"));
-});
+  app.get("/", (_, res) => {
+    res.sendFile(path.resolve("./src/swagger-ui-dist/index.html"));
+  });
 
 app.get("/floor-price/:collection", async (req, res) => {
   try {
