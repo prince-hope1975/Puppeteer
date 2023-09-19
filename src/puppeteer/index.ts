@@ -15,6 +15,7 @@ export const getFloor = async (collection: string) => {
     page.setUserAgent(
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
     );
+    console.log({collection})
     await page.goto(`https://www.nftexplorer.app/collection/${collection}/`);
 
     // Type into search box.
