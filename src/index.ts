@@ -26,7 +26,7 @@ app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
-const _path = path.resolve(`src/`);
+const _path = path.resolve(`/`);
 
 app.use(express.static(`${_path}/swagger-ui-dist`));
 // Endpoint for serving documentation
