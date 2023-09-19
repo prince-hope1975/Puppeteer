@@ -26,6 +26,7 @@ app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
+// ! add "src" to run locally
 const _path = path.resolve(`./`);
 
 app.use(express.static(`${_path}/swagger-ui-dist`));
