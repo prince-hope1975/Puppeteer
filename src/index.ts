@@ -32,7 +32,8 @@ const _path = path.resolve(`src/`);
 app.use(express.static(`${_path}/swagger-ui-dist`));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
-  res.sendFile(path.resolve("/src/swagger-ui-dist/index.html"));
+  console.log("dirname", path.dirname);
+  res.sendFile(path.resolve("/swagger-ui-dist/index.html"));
 });
 
 app.get("/floor-price/:collection", async (req, res) => {
