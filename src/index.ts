@@ -13,6 +13,13 @@ import { z } from "zod";
 import bodyParser from "body-parser";
 const app = express();
 let deployedTime = new Date();
+const requestBodySchema = z.object({
+  walletAddress: z.string(),
+  assetId: z.string(),
+  contract: z.string(),
+  isToken: z.boolean(),
+  isTestNet: z.optional(z.boolean()),
+});
 // Function to check if two hours have passed since the last check
 function HasTimePassed(lastCheckTime: Date, time = 4) {
   // Create a Date object for the current time
@@ -29,14 +36,8 @@ function HasTimePassed(lastCheckTime: Date, time = 4) {
 }
 
 // Example usage:
-const lastCheckTime = new Date(); // Initialize with the last check time
-const twoHoursHavePassed = HasTimePassed(lastCheckTime);
 
-if (twoHoursHavePassed) {
-  console.log("Two hours have passed since the last check.");
-} else {
-  console.log("Less than two hours have passed since the last check.");
-}
+
 
 // Example data for floor price and rewards
 
@@ -52,7 +53,7 @@ app.use(function (_, res, next) {
   next();
 });
 // ! add "src" to run locally
-const _path = path.resolve(`./src`);
+const _path = path.resolve(`./`);
 
 app.use(express.static(`${_path}/swagger-ui-dist`));
 // Endpoint for serving documentation
@@ -116,13 +117,7 @@ app.get("/asset/:assetID", async (req, res) => {
 });
 
 // Get rewards to collect by wallet address and asset id
-const requestBodySchema = z.object({
-  walletAddress: z.string(),
-  assetId: z.string(),
-  contract: z.string(),
-  isToken: z.boolean(),
-  isTestNet: z.optional(z.boolean()),
-});
+
 
 app.post("/rewards-to-collect/", bodyParser.json(), async (req, res) => {
   console.log({ res: req?.body });
