@@ -12,6 +12,31 @@ import {
 import { z } from "zod";
 import bodyParser from "body-parser";
 const app = express();
+let deployedTime = new Date();
+// Function to check if two hours have passed since the last check
+function HasTimePassed(lastCheckTime: Date, time = 4) {
+  // Create a Date object for the current time
+  const currentTime = new Date();
+
+  // Calculate the time difference in milliseconds
+  const timeDifference = +currentTime - +lastCheckTime;
+
+  // Convert the time difference to hours
+  const hoursPassed = timeDifference / (1000 * 60 * 60);
+
+  // Check if at least 2 hours have passed
+  return hoursPassed >= time;
+}
+
+// Example usage:
+const lastCheckTime = new Date(); // Initialize with the last check time
+const twoHoursHavePassed = HasTimePassed(lastCheckTime);
+
+if (twoHoursHavePassed) {
+  console.log("Two hours have passed since the last check.");
+} else {
+  console.log("Less than two hours have passed since the last check.");
+}
 
 // Example data for floor price and rewards
 
@@ -38,16 +63,19 @@ app.get("/", (_, res) => {
 
 app.get("/floor-price/:collection", async (req, res) => {
   try {
+    const timePassed = HasTimePassed(deployedTime);
     const _collection: string = req?.params?.collection;
     const collection = _collection.split(".").join("");
     const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
     const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
 
-    if (_floor) {
+    if (_floor && !timePassed) {
       return res.status(200).json({ data: _floor });
     }
     const floor = await getFloor(collection);
     if (floor) {
+      deployedTime = new Date();
+      
       const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
       await FLOOR_REF.set(floor_price);
       return res.json({ data: floor_price });
