@@ -37,7 +37,7 @@ app.use(function (_, res, next) {
     next();
 });
 // ! add "src" to run locally
-const _path = path.resolve(`./`);
+const _path = path.resolve(`./src`);
 app.use(express.static(`${_path}/swagger-ui-dist`));
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
