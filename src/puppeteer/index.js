@@ -15,9 +15,7 @@ export const getFloor = async (collection) => {
         //   await page.type(".devsite-search-field", "Headless Chrom e");
         // console.log(await page.content())
         // Wait for suggest overlay to appear and click "show all results".
-        console.log("Started waiting");
         const allResultsSelector = "svg.text-primary";
-        console.log("Ended waiting");
         // const allResultsSelector = ".display-6";
         // await new Promise((resolve) => setTimeout(resolve, 10000));
         await page.waitForSelector(allResultsSelector);

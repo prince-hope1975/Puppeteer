@@ -44,12 +44,7 @@ app.get("/floor-price/:collection", async (req, res) => {
         }
     }
     catch (error) {
-        if (error?.message) {
-            const data = JSON.parse(error?.message);
-            return res
-                .status(500)
-                .json({ error: `${data?.[0]?.code} expected ${data?.[0]?.expected}` });
-        }
+        console.error(error);
         return res.status(500).json({ err: "failed" });
     }
 });
