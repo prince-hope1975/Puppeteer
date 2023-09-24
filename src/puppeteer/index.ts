@@ -2,20 +2,19 @@ import puppeteer from "puppeteer";
 import { z } from "zod";
 
 export const getFloor = async (collection: string) => {
+  z.string().parse(collection);
+
+  const browser = await puppeteer.launch({
+    headless: "new",
+    // args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   try {
-    z.string().parse(collection);
-
-    const browser = await puppeteer.launch({
-      headless: "new",
-      // args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-
     const page = await browser.newPage();
 
     page.setUserAgent(
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
     );
-    console.log({collection})
+    console.log({ collection });
     await page.goto(`https://www.nftexplorer.app/collection/${collection}/`);
 
     // Type into search box.
@@ -47,19 +46,18 @@ export const getFloor = async (collection: string) => {
     return [...links];
   } catch (error) {
     console.error(error);
+    await browser.close();
     return;
   }
 };
 
 export const verifyAsset = async (asset: string) => {
+  z.string().parse(asset);
+
+  const browser = await puppeteer.launch({
+    headless: "new",
+  });
   try {
-    z.string().parse(asset);
-
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox"],
-    });
-
     const page = await browser.newPage();
 
     page.setUserAgent(
@@ -98,6 +96,7 @@ export const verifyAsset = async (asset: string) => {
     console.log({ textContent });
     return textContent;
   } catch (error) {
+    await browser.close();
     console.error(error);
     return;
   }
