@@ -37,8 +37,6 @@ function HasTimePassed(lastCheckTime: Date, time = 4) {
 
 // Example usage:
 
-
-
 // Example data for floor price and rewards
 
 // Get floor price by collection name
@@ -64,6 +62,7 @@ app.get("/", (_, res) => {
 
 app.get("/floor-price/:collection", async (req, res) => {
   try {
+    req.socket.setTimeout(2000);
     const timePassed = HasTimePassed(deployedTime);
     const _collection: string = req?.params?.collection;
     const collection = _collection.split(".").join("");
@@ -71,53 +70,54 @@ app.get("/floor-price/:collection", async (req, res) => {
     const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
 
     if (_floor && !timePassed) {
-      return res.status(200).json({ data: _floor });
-    }
-    const floor = await getFloor(collection);
-    if (floor) {
-      deployedTime = new Date();
-      
-      const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
-      await FLOOR_REF.set(floor_price);
-      return res.json({ data: floor_price });
+      res.status(200).json({ data: _floor });
     } else {
-      return res.status(404).json({ error: "Collection not found" });
+      const floor = await getFloor(collection);
+      if (floor) {
+        deployedTime = new Date();
+        const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
+        await FLOOR_REF.set(floor_price);
+        res.json({ data: floor_price });
+      } else {
+        res.status(404).json({ error: "Collection not found" });
+      }
     }
   } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ err: "failed" });
+    res.status(500).json({ err: "failed" });
   }
 });
 app.get("/asset/:assetID", async (req, res) => {
   try {
+    req.socket.setTimeout(1000);
     const _asset: string = req?.params?.assetID;
     const asset = _asset;
     const ASSET_REF = db.ref(`verifiedAssets/${asset}`);
     const [_assetID] = await readDataFromSnapShots_preserve(ASSET_REF);
 
     if (_assetID) {
-      return res.status(200).json({ data: _assetID });
-    }
-    const assetCollection = await verifyAsset(asset);
-    if (assetCollection) {
-      await ASSET_REF.set({ collection: assetCollection });
-      return res.json({ data: { collection: assetCollection } });
+      res.status(200).json({ data: _assetID });
     } else {
-      return res.status(404).json({ error: "Couldn't find asset" });
+      const assetCollection = await verifyAsset(asset);
+      if (assetCollection) {
+        await ASSET_REF.set({ collection: assetCollection });
+        res.json({ data: { collection: assetCollection } });
+      } else {
+        res.status(404).json({ error: "Couldn't find asset" });
+      }
     }
   } catch (error: any) {
     if (error?.message) {
       const data = JSON.parse(error?.message);
-      return res
+      res
         .status(500)
         .json({ error: `${data?.[0]?.code} expected ${data?.[0]?.expected}` });
     }
-    return res.status(500).json({ err: "failed" });
+    res.status(500).json({ err: "failed" });
   }
 });
 
 // Get rewards to collect by wallet address and asset id
-
 
 app.post("/rewards-to-collect/", bodyParser.json(), async (req, res) => {
   console.log({ res: req?.body });
