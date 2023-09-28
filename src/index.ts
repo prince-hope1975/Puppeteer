@@ -62,7 +62,6 @@ app.get("/", (_, res) => {
 
 app.get("/floor-price/:collection", async (req, res) => {
   try {
-    req.socket.setTimeout(2000);
     const timePassed = HasTimePassed(deployedTime);
     const _collection: string = req?.params?.collection;
     const collection = _collection.split(".").join("");
