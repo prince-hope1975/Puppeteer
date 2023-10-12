@@ -1,5 +1,9 @@
 import express from "express";
-import { getFloor, verifyAsset } from "./puppeteer/index.js";
+import {
+  getFloor,
+  getFloor_withBrowser,
+  verifyAsset,
+} from "./puppeteer/index.js";
 import { db, readDataFromSnapShots_preserve } from "./firebase_admin/index.js";
 import { parseLocaleNumber } from "./utils/formatter.js";
 import {
@@ -42,6 +46,7 @@ function HasTimePassed(lastCheckTime: Date, time = 4) {
 // Get floor price by collection name
 
 import path from "path";
+import puppeteer from "puppeteer";
 
 app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -71,7 +76,12 @@ app.get("/floor-price/:collection", async (req, res) => {
     if (_floor && !timePassed) {
       res.status(200).json({ data: _floor });
     } else {
-      const floor = await getFloor(collection);
+      const browser = await puppeteer.launch({
+        headless: "new",
+        // args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      });
+      const floor = await getFloor_withBrowser(browser, collection);
+      browser?.close().catch(console.error);
       if (floor) {
         deployedTime = new Date();
         const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
