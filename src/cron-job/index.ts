@@ -5,7 +5,7 @@ import { parseLocaleNumber } from "../utils/formatter.js";
 // @ts-ignore
 import { schedule } from "node-cron";
 
-const Func = async () => {
+export const Func = async () => {
   const FLOOR_REF = db.ref(`floorPriceCollection/`);
   const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
   if (!_floor) return;
@@ -18,6 +18,10 @@ const Func = async () => {
     }
   }
 };
+
+Func().then(() => {
+  console.log("Done");
+});
 
 schedule("40 */24 * * *", () => {
   Func()

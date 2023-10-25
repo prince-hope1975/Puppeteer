@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  getFloor,
   getFloor_withBrowser,
   verifyAsset,
 } from "./puppeteer/index.js";

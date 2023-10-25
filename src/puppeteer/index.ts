@@ -92,7 +92,7 @@ export const getFloor_withBrowser = async (browser:Browser,collection: string) =
     return [...links];
   } catch (error) {
     console.error(error);
-    await browser.close();
+    await browser?.close();
     return;
   }
 };
