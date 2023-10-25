@@ -19,11 +19,9 @@ export const Func = async () => {
   }
 };
 
-Func().then(() => {
-  console.log("Done");
-});
 
-schedule("40 */24 * * *", () => {
+
+schedule("40 */23 * * *", () => {
   Func()
     .then(() => {
       console.log({ res: "success" });
