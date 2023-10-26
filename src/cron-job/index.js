@@ -18,6 +18,9 @@ export const Func = async () => {
         }
     }
 };
+// Func().then(() => {
+//   console.log("Done");
+// });
 schedule("40 */23 * * *", () => {
     Func()
         .then(() => {
