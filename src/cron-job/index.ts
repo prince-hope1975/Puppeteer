@@ -14,6 +14,7 @@ export const Func = async () => {
     for (const key in _floor) {
       const browser = await puppeteer.launch({
         headless: true,
+        timeout:120_000
       });
       console.log({ _floor, key });
       try {
