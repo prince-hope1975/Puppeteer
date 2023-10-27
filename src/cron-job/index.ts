@@ -13,7 +13,7 @@ export const Func = async () => {
   if (typeof _floor === "object") {
     for (const key in _floor) {
       const browser = await puppeteer.launch({
-        headless: true,
+        headless: "new",
         timeout:120_000
       });
       console.log({ _floor, key });

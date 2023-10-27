@@ -54,7 +54,7 @@ export const getFloor_withBrowser = async (browser, collection) => {
         const allResultsSelector = "svg.text-primary";
         // const allResultsSelector = ".display-6";
         // await new Promise((resolve) => setTimeout(resolve, 10000));
-        await page.waitForSelector(allResultsSelector);
+        await page.waitForSelector(allResultsSelector, { timeout: 120_000 });
         const va = await page.$$(allResultsSelector);
         // Extract the results from the page.
         const links = (await page.evaluate(() => {

@@ -50,9 +50,11 @@ export const getFloor = async (collection: string) => {
     return;
   }
 };
-export const getFloor_withBrowser = async (browser:Browser,collection: string) => {
+export const getFloor_withBrowser = async (
+  browser: Browser,
+  collection: string
+) => {
   z.string().parse(collection);
-
 
   try {
     const page = await browser.newPage();
@@ -71,7 +73,7 @@ export const getFloor_withBrowser = async (browser:Browser,collection: string) =
     const allResultsSelector = "svg.text-primary";
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
-    await page.waitForSelector(allResultsSelector);
+    await page.waitForSelector(allResultsSelector, { timeout: 120_000 });
     const va = await page.$$(allResultsSelector);
 
     // Extract the results from the page.
