@@ -1,6 +1,7 @@
 // import { z } from "zod";
+import puppeteer from "puppeteer";
 import { db, readDataFromSnapShots_preserve } from "../firebase_admin/index.js";
-import { getFloor } from "../puppeteer/index.js";
+import { getFloor_withBrowser } from "../puppeteer/index.js";
 import { parseLocaleNumber } from "../utils/formatter.js";
 // @ts-ignore
 import { schedule } from "node-cron";
@@ -11,8 +12,18 @@ export const Func = async () => {
         return;
     if (typeof _floor === "object") {
         for (const key in _floor) {
+            const browser = await puppeteer.launch({
+                headless: "new",
+            });
             console.log({ _floor, key });
-            const floor = await getFloor(key);
+            let floor;
+            try {
+                floor = await getFloor_withBrowser(browser, key);
+            }
+            catch (error) {
+                console.error(error);
+            }
+            browser?.close().catch(console.error);
             const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
             await FLOOR_REF.child(key).set(floor_price);
         }
