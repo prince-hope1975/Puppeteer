@@ -45,7 +45,6 @@ export const getFloor_withBrowser = async (browser, collection) => {
     try {
         const page = await browser.newPage();
         page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
-        console.log({ collection });
         await page.goto(`https://www.nftexplorer.app/collection/${collection}/`);
         // Type into search box.
         //   await page.type(".devsite-search-field", "Headless Chrom e");
@@ -54,7 +53,7 @@ export const getFloor_withBrowser = async (browser, collection) => {
         const allResultsSelector = "svg.text-primary";
         // const allResultsSelector = ".display-6";
         // await new Promise((resolve) => setTimeout(resolve, 10000));
-        await page.waitForSelector(allResultsSelector, { timeout: 120_000 });
+        await page.waitForSelector(allResultsSelector, { timeout: 240_000 });
         const va = await page.$$(allResultsSelector);
         // Extract the results from the page.
         const links = (await page.evaluate(() => {
