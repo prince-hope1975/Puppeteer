@@ -33,13 +33,13 @@ export const Func = async () => {
 // Func().then(() => {
 //   console.log("Done");
 // });
-schedule("*/3 * * * *", () => {
-    Func()
-        .then(() => {
-        console.log({ res: "success" });
-        console.log("Finishing Cron Job");
+schedule("* */2 * * *", () => {
+  Func()
+    .then(() => {
+      console.log({ res: "success" });
+      console.log("Finishing Cron Job");
     })
-        .catch(console.error);
+    .catch(console.error);
 });
 // schedule("*/3 * * * *", async () => {
 //     Func()

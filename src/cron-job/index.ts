@@ -35,7 +35,7 @@ export const Func = async () => {
 //   console.log("Done");
 // });
 
-schedule("*/3 * * * *", () => {
+schedule("* */2 * * *", () => {
   Func()
     .then(() => {
       console.log({ res: "success" });
