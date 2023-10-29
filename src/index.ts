@@ -66,21 +66,20 @@ app.get("/", (_, res) => {
 
 app.get("/floor-price/:collection", async (req, res) => {
   try {
-    const timePassed = HasTimePassed(deployedTime);
+    // const timePassed = HasTimePassed(deployedTime);
     const _collection: string = req?.params?.collection;
     const collection = _collection.split(".").join("");
     const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
     const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
 
-    if (_floor && !timePassed) {
+    if (_floor ) {
       res.status(200).json({ data: _floor });
     } else {
       const browser = await puppeteer.launch({
         headless: "new",
-        // args: ["--no-sandbox", "--disable-setuid-sandbox"],
       });
       const floor = await getFloor_withBrowser(browser, collection);
-      browser?.close().catch(console.error);
+      await browser?.close().catch(console.error);
       if (floor) {
         deployedTime = new Date();
         const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
