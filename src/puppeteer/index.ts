@@ -1,6 +1,6 @@
 import puppeteer, { Browser } from "puppeteer";
 import { z } from "zod";
-
+import { exec } from "child_process";
 export const getFloor = async (collection: string) => {
   z.string().parse(collection);
 
@@ -148,3 +148,30 @@ export const verifyAsset = async (asset: string) => {
     return;
   }
 };
+
+export function findAndKillLatestChromeProcess() {
+  // Use shell commands to find the latest Chrome process
+  const cmd = "pgrep -o 'chrome|chromium'";
+  exec(cmd, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error finding Chrome process: ${error.message}`);
+      return;
+    }
+
+    const latestChromePID = stdout.trim();
+    if (latestChromePID) {
+      console.log(
+        `Terminating the latest Chrome process with PID ${latestChromePID}`
+      );
+      exec(`kill -9 ${latestChromePID}`, (killError: any) => {
+        if (killError) {
+          console.error(`Error killing Chrome process: ${killError?.message}`);
+        }
+      });
+    } else {
+      console.log("No Chrome processes found.");
+    }
+  });
+}
+
+// Call the function to find and kill the latest Chrome process

@@ -1,7 +1,7 @@
 // import { z } from "zod";
 import puppeteer from "puppeteer";
 import { db, readDataFromSnapShots_preserve } from "../firebase_admin/index.js";
-import { getFloor_withBrowser } from "../puppeteer/index.js";
+import { findAndKillLatestChromeProcess, getFloor_withBrowser, } from "../puppeteer/index.js";
 import { parseLocaleNumber } from "../utils/formatter.js";
 // @ts-ignore
 import { schedule } from "node-cron";
@@ -14,12 +14,11 @@ export const Func = async () => {
         for (const key in _floor) {
             const browser = await puppeteer.launch({
                 headless: "new",
-                timeout: 120_000
+                timeout: 120_000,
             });
-            console.log({ _floor, key });
+            console.log({ key });
             try {
                 const floor = await getFloor_withBrowser(browser, key);
-                // browser?.close().catch(console.error);
                 const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
                 await FLOOR_REF.child(key).set(floor_price);
             }
@@ -27,6 +26,7 @@ export const Func = async () => {
                 console.error(error);
             }
             browser?.close().catch(console.error);
+            findAndKillLatestChromeProcess();
         }
     }
 };
@@ -34,12 +34,12 @@ export const Func = async () => {
 //   console.log("Done");
 // });
 schedule("* */2 * * *", () => {
-  Func()
-    .then(() => {
-      console.log({ res: "success" });
-      console.log("Finishing Cron Job");
+    Func()
+        .then(() => {
+        console.log({ res: "success" });
+        console.log("Finishing Cron Job");
     })
-    .catch(console.error);
+        .catch(console.error);
 });
 // schedule("*/3 * * * *", async () => {
 //     Func()
