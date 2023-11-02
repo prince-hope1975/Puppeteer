@@ -26,16 +26,18 @@ export const Func = async () => {
         const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
         await FLOOR_REF.child(key).set(floor_price);
       } catch (error) {
+        const browser = await puppeteer.launch({
+          headless: "new",
+          timeout: 120_000,
+        });
         try {
-          const browser = await puppeteer.launch({
-            headless: "new",
-            timeout: 120_000,
-          });
           const floor = await getFloor_withBrowser(browser, key);
           const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
           await FLOOR_REF.child(key).set(floor_price);
         } catch (error) {
           console.error(error);
+          browser?.close().catch(console.error);
+          findAndKillLatestChromeProcess();
         }
         findAndKillLatestChromeProcess();
       }
@@ -48,14 +50,14 @@ export const Func = async () => {
 //   console.log("Done");
 // });
 
-schedule("* */1 * * *", () => {
-Func()
-  .then(() => {
-    console.log({ res: "success" });
-    console.log("Finishing Cron Job");
-  })
-  .catch(console.error);
-});
+// schedule("* */1 * * *", () => {
+  Func()
+    .then(() => {
+      console.log({ res: "success" });
+      console.log("Finishing Cron Job");
+    })
+    .catch(console.error);
+// });
 // schedule("*/3 * * * *", async () => {
 //     Func()
 //       .then(() => {
