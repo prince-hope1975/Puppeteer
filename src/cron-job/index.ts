@@ -66,7 +66,7 @@ export const Func = async () => {
 //   console.log("Done");
 // });
 
-// schedule("* */1 * * *", () => {
+schedule("* */1 * * *", () => {
 Func()
   .then(() => {
     console.log({ res: "success" });
@@ -76,7 +76,7 @@ Func()
     console.error(err);
     await Func().catch(() => {});
   });
-// });
+});
 // schedule("*/3 * * * *", async () => {
 //     Func()
 //       .then(() => {

@@ -3,6 +3,8 @@ import puppeteer from "puppeteer";
 import { db, readDataFromSnapShots_preserve } from "../firebase_admin/index.js";
 import { findAndKillLatestChromeProcess, getFloor_withBrowser, } from "../puppeteer/index.js";
 import { parseLocaleNumber } from "../utils/formatter.js";
+// @ts-ignore
+import { schedule } from "node-cron";
 export const Func = async () => {
     const FLOOR_REF = db.ref(`floorPriceCollection/`);
     const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
@@ -61,17 +63,17 @@ export const Func = async () => {
 // Func().then(() => {
 //   console.log("Done");
 // });
-// schedule("* */1 * * *", () => {
-Func()
-    .then(() => {
-    console.log({ res: "success" });
-    console.log("Finishing Cron Job");
-})
-    .catch(async (err) => {
-    console.error(err);
-    await Func().catch(() => { });
+schedule("* */1 * * *", () => {
+    Func()
+        .then(() => {
+        console.log({ res: "success" });
+        console.log("Finishing Cron Job");
+    })
+        .catch(async (err) => {
+        console.error(err);
+        await Func().catch(() => { });
+    });
 });
-// });
 // schedule("*/3 * * * *", async () => {
 //     Func()
 //       .then(() => {
