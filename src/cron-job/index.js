@@ -22,7 +22,18 @@ export const Func = async () => {
                 await FLOOR_REF.child(key).set(floor_price);
             }
             catch (error) {
-                console.error(error);
+                try {
+                    const browser = await puppeteer.launch({
+                        headless: "new",
+                        timeout: 120_000,
+                    });
+                    const floor = await getFloor_withBrowser(browser, key);
+                    const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
+                    await FLOOR_REF.child(key).set(floor_price);
+                }
+                catch (error) {
+                    console.error(error);
+                }
                 findAndKillLatestChromeProcess();
             }
             browser?.close().catch(console.error);
