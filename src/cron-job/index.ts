@@ -48,14 +48,14 @@ export const Func = async () => {
 //   console.log("Done");
 // });
 
-// schedule("* */1 * * *", () => {
+schedule("* */1 * * *", () => {
 Func()
   .then(() => {
     console.log({ res: "success" });
     console.log("Finishing Cron Job");
   })
   .catch(console.error);
-// });
+});
 // schedule("*/3 * * * *", async () => {
 //     Func()
 //       .then(() => {
