@@ -20,7 +20,7 @@ export const Func = async () => {
         timeout: 120_000,
       });
       // browser
-      // console.log({ key });
+      console.log({ key });
       try {
         const floor = await getFloor_withBrowser(browser, key);
         const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
