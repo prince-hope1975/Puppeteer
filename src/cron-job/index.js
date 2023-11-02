@@ -43,9 +43,13 @@ export const Func = async () => {
                     console.error(error);
                     browser?.close().catch(console.error);
                     findAndKillLatestChromeProcess();
+                    console.log("continuing 1");
+                    continue;
                 }
-                findAndKillLatestChromeProcess();
+                console.log("continuing 1");
             }
+            console.log("continuing 2");
+            findAndKillLatestChromeProcess();
             browser?.close().catch(console.error);
         }
     }
