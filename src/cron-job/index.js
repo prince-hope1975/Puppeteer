@@ -17,7 +17,10 @@ export const Func = async () => {
                 headless: "new",
                 timeout: 120_000,
             })
-                .catch(console.error);
+                .catch((err) => {
+                findAndKillLatestChromeProcess();
+                console.error(err);
+            });
             if (!browser) {
                 browser = await puppeteer.launch({
                     headless: "new",

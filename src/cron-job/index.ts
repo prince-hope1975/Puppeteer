@@ -20,7 +20,10 @@ export const Func = async () => {
           headless: "new",
           timeout: 120_000,
         })
-        .catch(console.error);
+        .catch((err) => {
+          findAndKillLatestChromeProcess();
+          console.error(err);
+        });
       if (!browser) {
         browser = await puppeteer.launch({
           headless: "new",
@@ -60,15 +63,15 @@ export const Func = async () => {
 // });
 
 schedule("* */1 * * *", () => {
-Func()
-  .then(() => {
-    console.log({ res: "success" });
-    console.log("Finishing Cron Job");
-  })
-  .catch(async (err) => {
-    console.error(err);
-    await Func().catch(() => {});
-  });
+  Func()
+    .then(() => {
+      console.log({ res: "success" });
+      console.log("Finishing Cron Job");
+    })
+    .catch(async (err) => {
+      console.error(err);
+      await Func().catch(() => {});
+    });
 });
 // schedule("*/3 * * * *", async () => {
 //     Func()
