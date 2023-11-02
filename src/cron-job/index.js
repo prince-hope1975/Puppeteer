@@ -10,6 +10,7 @@ export const Func = async () => {
         return;
     if (typeof _floor === "object") {
         for (const key in _floor) {
+            console.log({ key });
             let browser = await puppeteer
                 .launch({
                 headless: "new",

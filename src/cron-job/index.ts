@@ -15,6 +15,7 @@ export const Func = async () => {
   if (!_floor) return;
   if (typeof _floor === "object") {
     for (const key in _floor) {
+      console.log({ key });
       let browser = await puppeteer
         .launch({
           headless: "new",
@@ -30,13 +31,13 @@ export const Func = async () => {
       // browser
       console.log({ key });
       try {
-        console.log("Fetching")
+        console.log("Fetching");
         const floor = await getFloor_withBrowser(browser, key);
-        console.log("Fetched")
+        console.log("Fetched");
         const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
         await FLOOR_REF.child(key).set(floor_price);
       } catch (error) {
-        console.log("Launching new browser")
+        console.log("Launching new browser");
         const browser = await puppeteer.launch({
           headless: "new",
           timeout: 120_000,
