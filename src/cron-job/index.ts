@@ -30,10 +30,13 @@ export const Func = async () => {
       // browser
       console.log({ key });
       try {
+        console.log("Fetching")
         const floor = await getFloor_withBrowser(browser, key);
+        console.log("Fetched")
         const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
         await FLOOR_REF.child(key).set(floor_price);
       } catch (error) {
+        console.log("Launching new browser")
         const browser = await puppeteer.launch({
           headless: "new",
           timeout: 120_000,
@@ -45,16 +48,13 @@ export const Func = async () => {
         } catch (error) {
           console.log("continuing 1");
           console.error(error);
-          findAndKillLatestChromeProcess();
           continue;
         }
         console.log("continuing 1");
       }
       console.log("continuing 2");
 
-      try {
-        findAndKillLatestChromeProcess();
-      } catch (error) {}
+      findAndKillLatestChromeProcess();
     }
   }
 };
