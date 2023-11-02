@@ -48,14 +48,16 @@ export const Func = async () => {
           await FLOOR_REF.child(key).set(floor_price);
         } catch (error) {
           console.log("continuing 1");
+          findAndKillLatestChromeProcess(browser.process()?.pid);
           console.error(error);
           continue;
         }
+        findAndKillLatestChromeProcess(browser.process()?.pid);
         console.log("continuing 1");
+        continue;
       }
       console.log("continuing 2");
-
-      findAndKillLatestChromeProcess();
+      findAndKillLatestChromeProcess(browser.process()?.pid);
     }
   }
 };
@@ -72,7 +74,7 @@ Func()
   })
   .catch(async (err) => {
     console.error(err);
-    await Func();
+    await Func().catch(() => {});
   });
 // });
 // schedule("*/3 * * * *", async () => {

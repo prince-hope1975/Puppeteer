@@ -118,7 +118,7 @@ export const verifyAsset = async (asset) => {
         return;
     }
 };
-export function findAndKillLatestChromeProcess() {
+export function findAndKillLatestChromeProcess(pid) {
     // Use shell commands to find the latest Chrome process
     const cmd = "pgrep -o 'chrome|chromium'";
     exec(cmd, (error, stdout, stderr) => {
@@ -126,7 +126,7 @@ export function findAndKillLatestChromeProcess() {
             console.error(`Error finding Chrome process: ${error.message}`);
             return;
         }
-        const latestChromePID = stdout.trim();
+        const latestChromePID = pid || stdout.trim();
         if (latestChromePID) {
             console.log(`Terminating the latest Chrome process with PID ${latestChromePID}`);
             exec(`kill -9 ${latestChromePID}`, (killError) => {
