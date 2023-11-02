@@ -40,10 +40,9 @@ export const Func = async () => {
                     await FLOOR_REF.child(key).set(floor_price);
                 }
                 catch (error) {
-                    console.error(error);
-                    browser?.close().catch(console.error);
-                    findAndKillLatestChromeProcess();
                     console.log("continuing 1");
+                    console.error(error);
+                    findAndKillLatestChromeProcess();
                     continue;
                 }
                 console.log("continuing 1");
@@ -51,7 +50,6 @@ export const Func = async () => {
             console.log("continuing 2");
             try {
                 findAndKillLatestChromeProcess();
-                browser?.close().catch(console.error);
             }
             catch (error) { }
         }
@@ -66,7 +64,10 @@ Func()
     console.log({ res: "success" });
     console.log("Finishing Cron Job");
 })
-    .catch(console.error);
+    .catch(async (err) => {
+    console.error(err);
+    await Func();
+});
 // });
 // schedule("*/3 * * * *", async () => {
 //     Func()
