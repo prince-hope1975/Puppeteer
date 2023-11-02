@@ -50,12 +50,13 @@ export const Func = async () => {
           continue;
         }
         console.log("continuing 1");
-
       }
-        console.log("continuing 2");
+      console.log("continuing 2");
 
-      findAndKillLatestChromeProcess();
-      browser?.close().catch(console.error);
+      try {
+        findAndKillLatestChromeProcess();
+        browser?.close().catch(console.error);
+      } catch (error) {}
     }
   }
 };
