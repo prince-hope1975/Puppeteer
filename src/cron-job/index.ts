@@ -19,16 +19,17 @@ export const Func = async () => {
         headless: "new",
         timeout: 120_000,
       });
-      console.log({ key });
+      // browser
+      // console.log({ key });
       try {
         const floor = await getFloor_withBrowser(browser, key);
         const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
         await FLOOR_REF.child(key).set(floor_price);
       } catch (error) {
         console.error(error);
+        findAndKillLatestChromeProcess();
       }
       browser?.close().catch(console.error);
-      findAndKillLatestChromeProcess();
     }
   }
 };
@@ -37,14 +38,14 @@ export const Func = async () => {
 //   console.log("Done");
 // });
 
-schedule("* */2 * * *", () => {
+// schedule("* */1 * * *", () => {
   Func()
     .then(() => {
       console.log({ res: "success" });
       console.log("Finishing Cron Job");
     })
     .catch(console.error);
-});
+// });
 // schedule("*/3 * * * *", async () => {
 //     Func()
 //       .then(() => {
