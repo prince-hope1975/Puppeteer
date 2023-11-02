@@ -15,10 +15,18 @@ export const Func = async () => {
   if (!_floor) return;
   if (typeof _floor === "object") {
     for (const key in _floor) {
-      const browser = await puppeteer.launch({
-        headless: "new",
-        timeout: 120_000,
-      });
+      let browser = await puppeteer
+        .launch({
+          headless: "new",
+          timeout: 120_000,
+        })
+        .catch(console.error);
+      if (!browser) {
+        browser = await puppeteer.launch({
+          headless: "new",
+          timeout: 120_000,
+        });
+      }
       // browser
       console.log({ key });
       try {
@@ -51,12 +59,12 @@ export const Func = async () => {
 // });
 
 // schedule("* */1 * * *", () => {
-  Func()
-    .then(() => {
-      console.log({ res: "success" });
-      console.log("Finishing Cron Job");
-    })
-    .catch(console.error);
+Func()
+  .then(() => {
+    console.log({ res: "success" });
+    console.log("Finishing Cron Job");
+  })
+  .catch(console.error);
 // });
 // schedule("*/3 * * * *", async () => {
 //     Func()

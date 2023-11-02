@@ -10,10 +10,18 @@ export const Func = async () => {
         return;
     if (typeof _floor === "object") {
         for (const key in _floor) {
-            const browser = await puppeteer.launch({
+            let browser = await puppeteer
+                .launch({
                 headless: "new",
                 timeout: 120_000,
-            });
+            })
+                .catch(console.error);
+            if (!browser) {
+                browser = await puppeteer.launch({
+                    headless: "new",
+                    timeout: 120_000,
+                });
+            }
             // browser
             console.log({ key });
             try {
