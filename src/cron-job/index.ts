@@ -43,14 +43,14 @@ export const Func = async () => {
           const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
           await FLOOR_REF.child(key).set(floor_price);
         } catch (error) {
-          findAndKillLatestChromeProcess(browser.process()?.pid);
+          findAndKillLatestChromeProcess();
           console.error(error);
           continue;
         }
-        findAndKillLatestChromeProcess(browser.process()?.pid);
+        findAndKillLatestChromeProcess();
         continue;
       }
-      findAndKillLatestChromeProcess(browser.process()?.pid);
+      findAndKillLatestChromeProcess();
     }
   }
 };

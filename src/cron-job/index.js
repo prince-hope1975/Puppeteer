@@ -42,14 +42,14 @@ export const Func = async () => {
                     await FLOOR_REF.child(key).set(floor_price);
                 }
                 catch (error) {
-                    findAndKillLatestChromeProcess(browser.process()?.pid);
+                    findAndKillLatestChromeProcess();
                     console.error(error);
                     continue;
                 }
-                findAndKillLatestChromeProcess(browser.process()?.pid);
+                findAndKillLatestChromeProcess();
                 continue;
             }
-            findAndKillLatestChromeProcess(browser.process()?.pid);
+            findAndKillLatestChromeProcess();
         }
     }
 };
