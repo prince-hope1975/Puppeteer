@@ -41,7 +41,7 @@ app.use(function (_, res, next) {
 });
 const limiter = rateLimit({
     windowMs: 1000,
-    max: 5,
+    max: 4,
     message: "Too many requests from this IP, please try again in a moment.",
 });
 // Apply the rate limiter to a specific endpoint
