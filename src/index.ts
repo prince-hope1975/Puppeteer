@@ -1,6 +1,7 @@
 import express from "express";
 import {
   findAndKillAllActiveChromeProcesses,
+  findAndKillLatestChromeProcess,
   getFloor_withBrowser,
   verifyAsset,
 } from "./puppeteer/index.js";
@@ -81,7 +82,7 @@ app.get("/floor-price/:collection", async (req, res) => {
       });
       const floor = await getFloor_withBrowser(browser, collection);
       await browser?.close().catch(console.error);
-      findAndKillAllActiveChromeProcesses();
+      findAndKillLatestChromeProcess(browser.process()?.pid);
       if (floor) {
         deployedTime = new Date();
         const floor_price = parseLocaleNumber(floor?.at(1), "en-US");

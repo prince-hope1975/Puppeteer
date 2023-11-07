@@ -137,6 +137,13 @@ export function findAndKillLatestChromeProcess(pid) {
         }
         else {
             console.log("No Chrome processes found.");
+            if (pid) {
+                exec(`kill -9 ${stdout.trim()}`, (killError) => {
+                    if (killError) {
+                        console.error(`Error killing Chrome process: ${killError?.message}`);
+                    }
+                });
+            }
         }
     });
 }
