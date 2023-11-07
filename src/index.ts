@@ -60,7 +60,7 @@ app.use(function (_, res, next) {
 });
 const limiter = rateLimit({
   windowMs: 1000, // 1 second
-  max: 4, // Allow 5 requests per second per IP
+  max: 2, // Allow 5 requests per second per IP
   message: "Too many requests from this IP, please try again in a moment.",
 });
 
