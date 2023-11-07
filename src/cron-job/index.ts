@@ -15,6 +15,7 @@ export const Func = async () => {
   if (!_floor) return;
   if (typeof _floor === "object") {
     for (const key in _floor) {
+      await findAndKillAllActiveChromeProcesses().catch(console.error);
       let browser = await puppeteer
         .launch({
           headless: "new",
