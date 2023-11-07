@@ -30,6 +30,7 @@ function HasTimePassed(lastCheckTime, time = 4) {
 // Get floor price by collection name
 import path from "path";
 import puppeteer from "puppeteer";
+import { wait } from "../new_src/puppeteer/index.js";
 app.use(function (_, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -75,6 +76,8 @@ app.get("/floor-price/:collection", async (req, res) => {
     }
     catch (error) {
         console.error(error);
+        await wait(3000);
+        findAndKillAllActiveChromeProcesses();
         res.status(500).json({ err: "failed" });
     }
 });

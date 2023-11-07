@@ -48,6 +48,7 @@ function HasTimePassed(lastCheckTime: Date, time = 4) {
 
 import path from "path";
 import puppeteer from "puppeteer";
+import { wait } from "../new_src/puppeteer/index.js";
 
 app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -74,7 +75,7 @@ app.get("/floor-price/:collection", async (req, res) => {
     const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
     const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
 
-    if (_floor ) {
+    if (_floor) {
       res.status(200).json({ data: _floor });
     } else {
       const browser = await puppeteer.launch({
@@ -94,6 +95,9 @@ app.get("/floor-price/:collection", async (req, res) => {
     }
   } catch (error: any) {
     console.error(error);
+    await wait(3000);
+    findAndKillAllActiveChromeProcesses();
+
     res.status(500).json({ err: "failed" });
   }
 });
