@@ -98,7 +98,7 @@ export const getFloor_withBrowser = async (
     return [...links];
   } catch (error) {
     console.error(error);
-    await browser?.close().catch(console.error);
+    await findAndKillAllActiveChromeProcesses().catch(console.error);
     return;
   }
 };

@@ -76,7 +76,7 @@ export const getFloor_withBrowser = async (browser, collection) => {
     }
     catch (error) {
         console.error(error);
-        await browser?.close().catch(console.error);
+        await findAndKillAllActiveChromeProcesses().catch(console.error);
         return;
     }
 };

@@ -5,6 +5,10 @@ import { parseLocaleNumber } from "./utils/formatter.js";
 import { reach, viewAssetClaimed, viewAssetClaimed_testnet, viewAssetReward, viewAssetReward_testnet, } from "./utils/reach/index.js";
 import { z } from "zod";
 import bodyParser from "body-parser";
+import path from "path";
+import puppeteer from "puppeteer";
+import { wait } from "../new_src/puppeteer/index.js";
+import rateLimit from "express-rate-limit";
 const app = express();
 let deployedTime = new Date();
 const requestBodySchema = z.object({
@@ -28,10 +32,6 @@ function HasTimePassed(lastCheckTime, time = 4) {
 // Example usage:
 // Example data for floor price and rewards
 // Get floor price by collection name
-import path from "path";
-import puppeteer from "puppeteer";
-import { wait } from "../new_src/puppeteer/index.js";
-import rateLimit from "express-rate-limit";
 app.use(function (_, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
