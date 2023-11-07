@@ -2,7 +2,7 @@
 import puppeteer from "puppeteer";
 import { db, readDataFromSnapShots_preserve } from "../firebase_admin/index.js";
 import {
-  findAndKillLatestChromeProcess,
+  findAndKillAllActiveChromeProcesses,
   getFloor_withBrowser,
 } from "../puppeteer/index.js";
 import { parseLocaleNumber } from "../utils/formatter.js";
@@ -21,7 +21,7 @@ export const Func = async () => {
           timeout: 120_000,
         })
         .catch((err) => {
-          findAndKillLatestChromeProcess();
+          findAndKillAllActiveChromeProcesses();
           console.error(err);
         });
       if (!browser) {
@@ -46,14 +46,14 @@ export const Func = async () => {
           const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
           await FLOOR_REF.child(key).set(floor_price);
         } catch (error) {
-          findAndKillLatestChromeProcess();
+          findAndKillAllActiveChromeProcesses();
           console.error(error);
           continue;
         }
-        findAndKillLatestChromeProcess();
+        findAndKillAllActiveChromeProcesses();
         continue;
       }
-      findAndKillLatestChromeProcess();
+      findAndKillAllActiveChromeProcesses();
     }
   }
 };

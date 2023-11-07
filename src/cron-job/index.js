@@ -1,7 +1,7 @@
 // import { z } from "zod";
 import puppeteer from "puppeteer";
 import { db, readDataFromSnapShots_preserve } from "../firebase_admin/index.js";
-import { findAndKillLatestChromeProcess, getFloor_withBrowser, } from "../puppeteer/index.js";
+import { findAndKillAllActiveChromeProcesses, getFloor_withBrowser, } from "../puppeteer/index.js";
 import { parseLocaleNumber } from "../utils/formatter.js";
 // @ts-ignore
 import { schedule } from "node-cron";
@@ -18,7 +18,7 @@ export const Func = async () => {
                 timeout: 120_000,
             })
                 .catch((err) => {
-                findAndKillLatestChromeProcess();
+                findAndKillAllActiveChromeProcesses();
                 console.error(err);
             });
             if (!browser) {
@@ -45,14 +45,14 @@ export const Func = async () => {
                     await FLOOR_REF.child(key).set(floor_price);
                 }
                 catch (error) {
-                    findAndKillLatestChromeProcess();
+                    findAndKillAllActiveChromeProcesses();
                     console.error(error);
                     continue;
                 }
-                findAndKillLatestChromeProcess();
+                findAndKillAllActiveChromeProcesses();
                 continue;
             }
-            findAndKillLatestChromeProcess();
+            findAndKillAllActiveChromeProcesses();
         }
     }
 };

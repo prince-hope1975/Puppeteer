@@ -140,4 +140,31 @@ export function findAndKillLatestChromeProcess(pid) {
         }
     });
 }
+export function findAndKillAllActiveChromeProcesses() {
+    // Use shell commands to find all active Chrome processes
+    const cmd = "pgrep 'chrome|chromium'";
+    exec(cmd, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error finding Chrome processes: ${error.message}`);
+            return;
+        }
+        const chromePIDs = stdout.trim().split("\n");
+        if (chromePIDs.length > 0) {
+            console.log(`Terminating ${chromePIDs.length} active Chrome processes:`);
+            chromePIDs.forEach((pid) => {
+                exec(`kill -9 ${pid}`, (killError) => {
+                    if (killError) {
+                        console.error(`Error killing Chrome process ${pid}: ${killError.message}`);
+                    }
+                });
+                console.log(`Killed Chrome process with PID ${pid}`);
+            });
+        }
+        else {
+            console.log("No active Chrome processes found.");
+        }
+    });
+}
+// Call the function to find and kill all active Chrome processes
+findAndKillAllActiveChromeProcesses();
 // Call the function to find and kill the latest Chrome process
