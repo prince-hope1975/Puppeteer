@@ -95,8 +95,9 @@ app.get("/floor-price/:collection", async (req, res) => {
     }
   } catch (error: any) {
     console.error(error);
-    await wait(3000);
-    findAndKillAllActiveChromeProcesses();
+    await wait(1000);
+
+    await findAndKillAllActiveChromeProcesses().catch(console.error);
 
     res.status(500).json({ err: "failed" });
   }
