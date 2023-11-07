@@ -1,5 +1,5 @@
 import express from "express";
-import { getFloor_withBrowser, verifyAsset, } from "./puppeteer/index.js";
+import { findAndKillAllActiveChromeProcesses, getFloor_withBrowser, verifyAsset, } from "./puppeteer/index.js";
 import { db, readDataFromSnapShots_preserve } from "./firebase_admin/index.js";
 import { parseLocaleNumber } from "./utils/formatter.js";
 import { reach, viewAssetClaimed, viewAssetClaimed_testnet, viewAssetReward, viewAssetReward_testnet, } from "./utils/reach/index.js";
@@ -61,6 +61,7 @@ app.get("/floor-price/:collection", async (req, res) => {
             });
             const floor = await getFloor_withBrowser(browser, collection);
             await browser?.close().catch(console.error);
+            findAndKillAllActiveChromeProcesses();
             if (floor) {
                 deployedTime = new Date();
                 const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
