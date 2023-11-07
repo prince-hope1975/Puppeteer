@@ -1,6 +1,7 @@
-import express from "express";
+import express, { NextFunction } from "express";
 import {
   findAndKillAllActiveChromeProcesses,
+  findAndKillLatestChromeProcess,
   getFloor_withBrowser,
   verifyAsset,
 } from "./puppeteer/index.js";
@@ -50,7 +51,6 @@ function HasTimePassed(lastCheckTime: Date, time = 4) {
 
 // Get floor price by collection name
 
-
 app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -70,6 +70,14 @@ app.use("/limited-endpoint", limiter);
 const _path = path.resolve(`./`);
 
 app.use(express.static(`${_path}/swagger-ui-dist`));
+async function myMiddleware(req: any, res: any, next: any) {
+  // Do something with the response
+  console.log("Response status code:", res.statusCode);
+  console.log("Response data:", res.locals.myData); // You can access data from the response
+  await findAndKillAllActiveChromeProcesses().catch(console.error); // Call next to pass control to the next middleware
+  next();
+}
+
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
   console.log("dirname", _path);
@@ -120,6 +128,9 @@ app.get("/floor-price/:collection", async (req, res) => {
     await browser?.close()?.catch(console.error);
   }
 });
+
+app.use("/floor-price/:collection", myMiddleware);
+
 app.get("/asset/:assetID", async (req, res) => {
   try {
     req.socket.setTimeout(1000);

@@ -49,6 +49,13 @@ app.use("/limited-endpoint", limiter);
 // ! add "src" to run locally
 const _path = path.resolve(`./`);
 app.use(express.static(`${_path}/swagger-ui-dist`));
+async function myMiddleware(req, res, next) {
+    // Do something with the response
+    console.log("Response status code:", res.statusCode);
+    console.log("Response data:", res.locals.myData); // You can access data from the response
+    await findAndKillAllActiveChromeProcesses().catch(console.error); // Call next to pass control to the next middleware
+    next();
+}
 // Endpoint for serving documentation
 app.get("/", (_, res) => {
     console.log("dirname", _path);
@@ -100,6 +107,7 @@ app.get("/floor-price/:collection", async (req, res) => {
         await browser?.close()?.catch(console.error);
     }
 });
+app.use("/floor-price/:collection", myMiddleware);
 app.get("/asset/:assetID", async (req, res) => {
     try {
         req.socket.setTimeout(1000);
