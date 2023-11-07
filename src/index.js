@@ -31,6 +31,7 @@ function HasTimePassed(lastCheckTime, time = 4) {
 import path from "path";
 import puppeteer from "puppeteer";
 import { wait } from "../new_src/puppeteer/index.js";
+import rateLimit from "express-rate-limit";
 app.use(function (_, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -38,6 +39,13 @@ app.use(function (_, res, next) {
     res.setHeader("Access-Control-Allow-Credentials", "true");
     next();
 });
+const limiter = rateLimit({
+    windowMs: 1000,
+    max: 5,
+    message: "Too many requests from this IP, please try again in a moment.",
+});
+// Apply the rate limiter to a specific endpoint
+app.use("/limited-endpoint", limiter);
 // ! add "src" to run locally
 const _path = path.resolve(`./`);
 app.use(express.static(`${_path}/swagger-ui-dist`));
@@ -47,6 +55,7 @@ app.get("/", (_, res) => {
     res.sendFile(path.resolve(`${_path}/swagger-ui-dist/index.html`));
 });
 app.get("/floor-price/:collection", async (req, res) => {
+    let browser;
     try {
         // const timePassed = HasTimePassed(deployedTime);
         const _collection = req?.params?.collection;
@@ -57,7 +66,7 @@ app.get("/floor-price/:collection", async (req, res) => {
             res.status(200).json({ data: _floor });
         }
         else {
-            const browser = await puppeteer.launch({
+            browser = await puppeteer.launch({
                 headless: "new",
             });
             const floor = await getFloor_withBrowser(browser, collection);
@@ -78,8 +87,17 @@ app.get("/floor-price/:collection", async (req, res) => {
     catch (error) {
         console.error(error);
         await wait(1000);
+        // @ts-ignore
+        if (browser) {
+            // @ts-ignore
+            await browser?.close()?.catch(console.error);
+        }
         await findAndKillAllActiveChromeProcesses().catch(console.error);
         res.status(500).json({ err: "failed" });
+    }
+    // @ts-ignore
+    if (browser) {
+        await browser?.close()?.catch(console.error);
     }
 });
 app.get("/asset/:assetID", async (req, res) => {

@@ -46,8 +46,9 @@ function HasTimePassed(lastCheckTime: Date, time = 4) {
 // Get floor price by collection name
 
 import path from "path";
-import puppeteer from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 import { wait } from "../new_src/puppeteer/index.js";
+import rateLimit from "express-rate-limit";
 
 app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -56,6 +57,14 @@ app.use(function (_, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
+const limiter = rateLimit({
+  windowMs: 1000, // 1 second
+  max: 5, // Allow 5 requests per second per IP
+  message: "Too many requests from this IP, please try again in a moment.",
+});
+
+// Apply the rate limiter to a specific endpoint
+app.use("/limited-endpoint", limiter);
 // ! add "src" to run locally
 const _path = path.resolve(`./`);
 
@@ -67,6 +76,7 @@ app.get("/", (_, res) => {
 });
 
 app.get("/floor-price/:collection", async (req, res) => {
+  let browser: Browser;
   try {
     // const timePassed = HasTimePassed(deployedTime);
     const _collection: string = req?.params?.collection;
@@ -77,7 +87,7 @@ app.get("/floor-price/:collection", async (req, res) => {
     if (_floor) {
       res.status(200).json({ data: _floor });
     } else {
-      const browser = await puppeteer.launch({
+      browser = await puppeteer.launch({
         headless: "new",
       });
       const floor = await getFloor_withBrowser(browser, collection);
@@ -96,10 +106,17 @@ app.get("/floor-price/:collection", async (req, res) => {
   } catch (error: any) {
     console.error(error);
     await wait(1000);
-
+    // @ts-ignore
+    if (browser) {
+      // @ts-ignore
+      await browser?.close()?.catch(console.error);
+    }
     await findAndKillAllActiveChromeProcesses().catch(console.error);
-
     res.status(500).json({ err: "failed" });
+  }
+  // @ts-ignore
+  if (browser) {
+    await browser?.close()?.catch(console.error);
   }
 });
 app.get("/asset/:assetID", async (req, res) => {
