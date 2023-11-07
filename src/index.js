@@ -45,7 +45,7 @@ const limiter = rateLimit({
     message: "Too many requests from this IP, please try again in a moment.",
 });
 // Apply the rate limiter to a specific endpoint
-app.use("/limited-endpoint", limiter);
+app.use("/floor-price/:collection", limiter);
 // ! add "src" to run locally
 const _path = path.resolve(`./`);
 app.use(express.static(`${_path}/swagger-ui-dist`));

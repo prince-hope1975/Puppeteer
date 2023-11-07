@@ -65,7 +65,7 @@ const limiter = rateLimit({
 });
 
 // Apply the rate limiter to a specific endpoint
-app.use("/limited-endpoint", limiter);
+app.use("/floor-price/:collection", limiter);
 // ! add "src" to run locally
 const _path = path.resolve(`./`);
 
