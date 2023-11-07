@@ -20,8 +20,8 @@ export const Func = async () => {
           headless: "new",
           timeout: 120_000,
         })
-        .catch((err) => {
-          findAndKillAllActiveChromeProcesses();
+        .catch(async (err) => {
+          await findAndKillAllActiveChromeProcesses().catch(console.error);
           console.error(err);
         });
       if (!browser) {
@@ -46,14 +46,14 @@ export const Func = async () => {
           const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
           await FLOOR_REF.child(key).set(floor_price);
         } catch (error) {
-          findAndKillAllActiveChromeProcesses();
+          await findAndKillAllActiveChromeProcesses().catch(console.error);
           console.error(error);
           continue;
         }
-        findAndKillAllActiveChromeProcesses();
+        await findAndKillAllActiveChromeProcesses().catch(console.error);
         continue;
       }
-      findAndKillAllActiveChromeProcesses();
+      await findAndKillAllActiveChromeProcesses().catch(console.error);
     }
   }
 };
