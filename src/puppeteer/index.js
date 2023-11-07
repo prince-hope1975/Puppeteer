@@ -1,6 +1,8 @@
 import puppeteer from "puppeteer";
 import { z } from "zod";
-import { exec } from "child_process";
+import { exec as _exec } from "child_process";
+import { promisify } from "util";
+const exec = promisify(_exec);
 export const getFloor = async (collection) => {
     z.string().parse(collection);
     const browser = await puppeteer.launch({
@@ -118,60 +120,57 @@ export const verifyAsset = async (asset) => {
         return;
     }
 };
-export function findAndKillLatestChromeProcess(pid) {
-    // Use shell commands to find the latest Chrome process
-    const cmd = "pgrep -o 'chrome|chromium'";
-    exec(cmd, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error finding Chrome process: ${error.message}`);
-            return;
-        }
-        const latestChromePID = pid || stdout.trim();
+export async function findAndKillLatestChromeProcess(pid) {
+    try {
+        // Use shell commands to find the latest Chrome process
+        const cmd = "pgrep -o 'chrome|chromium'";
+        const ret = await exec(cmd);
+        const latestChromePID = pid || ret.stdout.trim();
         if (latestChromePID) {
             console.log(`Terminating the latest Chrome process with PID ${latestChromePID}`);
-            exec(`kill -9 ${latestChromePID}`, (killError) => {
-                if (killError) {
-                    console.error(`Error killing Chrome process: ${killError?.message}`);
-                }
-            });
+            await exec(`kill -9 ${latestChromePID}`);
         }
         else {
             console.log("No Chrome processes found.");
             if (pid) {
-                exec(`kill -9 ${stdout.trim().split("\n")}`, (killError) => {
-                    if (killError) {
-                        console.error(`Error killing Chrome process: ${killError?.message}`);
-                    }
-                });
+                await exec(`kill -9 ${ret.stdout.trim().split("\n")}`);
             }
         }
-    });
-}
-export function findAndKillAllActiveChromeProcesses() {
-    // Use shell commands to find all active Chrome processes
-    const cmd = "pgrep 'chrome|chromium'";
-    exec(cmd, (error, stdout, stderr) => {
+    }
+    catch (error) {
         if (error) {
-            console.error(`Error finding Chrome processes: ${error.message}`);
+            console.error(`Error finding Chrome process: ${error?.message}`);
             return;
         }
-        const chromePIDs = stdout.trim().split("\n");
+    }
+}
+export async function findAndKillAllActiveChromeProcesses() {
+    // Use shell commands to find all active Chrome processes
+    const cmd = "pgrep 'chrome|chromium'";
+    try {
+        const ret = await exec(cmd);
+        const chromePIDs = ret.stdout.trim().split("\n");
         if (chromePIDs.length > 0) {
             console.log(`Terminating ${chromePIDs.length} active Chrome processes:`);
-            chromePIDs.forEach((pid) => {
-                exec(`kill -9 ${pid}`, (killError) => {
+            for (let pid of chromePIDs) {
+                await exec(`kill -9 ${pid}`).catch((killError) => {
                     if (killError) {
                         console.error(`Error killing Chrome process ${pid}: ${killError.message}`);
                     }
                 });
-                console.log(`Killed Chrome process with PID ${pid}`);
-            });
+            }
         }
         else {
             console.log("No active Chrome processes found.");
         }
-    });
+    }
+    catch (error) {
+        if (error) {
+            console.error(`Error finding Chrome processes: ${error.message}`);
+            return;
+        }
+    }
 }
 // Call the function to find and kill all active Chrome processes
-findAndKillAllActiveChromeProcesses();
+await findAndKillAllActiveChromeProcesses();
 // Call the function to find and kill the latest Chrome process
