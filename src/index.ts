@@ -83,7 +83,8 @@ app.get("/floor-price/:collection", async (req, res) => {
       });
       const floor = await getFloor_withBrowser(browser, collection);
       await browser?.close().catch(console.error);
-      findAndKillAllActiveChromeProcesses();
+      await wait(1000);
+      await findAndKillAllActiveChromeProcesses();
       if (floor) {
         deployedTime = new Date();
         const floor_price = parseLocaleNumber(floor?.at(1), "en-US");
