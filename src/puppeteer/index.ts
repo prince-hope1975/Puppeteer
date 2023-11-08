@@ -94,10 +94,11 @@ export const getFloor_withBrowser = async (
     // Print all the files.
     console.log(links.join("\n"));
 
-    await browser.close();
+    await browser?.close();
     return [...links];
   } catch (error) {
     console.error(error);
+    await browser?.close().catch(console.error);
     await findAndKillAllActiveChromeProcesses().catch(console.error);
     return;
   }

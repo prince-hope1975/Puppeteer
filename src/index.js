@@ -7,7 +7,6 @@ import { z } from "zod";
 import bodyParser from "body-parser";
 import path from "path";
 import puppeteer from "puppeteer";
-import { wait } from "../new_src/puppeteer/index.js";
 import rateLimit from "express-rate-limit";
 const app = express();
 let deployedTime = new Date();
@@ -78,7 +77,6 @@ app.get("/floor-price/:collection", async (req, res) => {
             });
             const floor = await getFloor_withBrowser(browser, collection);
             await browser?.close().catch(console.error);
-            await wait(1000);
             await findAndKillAllActiveChromeProcesses().catch(console.error);
             if (floor) {
                 deployedTime = new Date();
@@ -93,12 +91,8 @@ app.get("/floor-price/:collection", async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        await wait(1000);
         // @ts-ignore
-        if (browser) {
-            // @ts-ignore
-            await browser?.close()?.catch(console.error);
-        }
+        await browser?.close()?.catch(console.error);
         await findAndKillAllActiveChromeProcesses().catch(console.error);
         res.status(500).json({ err: "failed" });
     }

@@ -13,22 +13,10 @@ export const Func = async () => {
     if (typeof _floor === "object") {
         for (const key in _floor) {
             await findAndKillAllActiveChromeProcesses().catch(console.error);
-            let browser = await puppeteer
-                .launch({
+            let browser = await puppeteer.launch({
                 headless: "new",
                 timeout: 120_000,
-            })
-                .catch(async (err) => {
-                await findAndKillAllActiveChromeProcesses().catch(console.error);
-                console.error(err);
             });
-            if (!browser) {
-                browser = await puppeteer.launch({
-                    headless: "new",
-                    timeout: 120_000,
-                });
-            }
-            // browser
             console.log({ key });
             try {
                 const floor = await getFloor_withBrowser(browser, key);
