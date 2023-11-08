@@ -104,7 +104,7 @@ app.get("/floor-price/:collection", async (req, res) => {
       const floor = await getFloor_withBrowser(browser, collection);
       console.log("Got floor")
       await browser?.close().catch(console.error);
-      await findAndKillLatestChromeProcess(browser.process()?.pid).catch(console.error);
+      // await findAndKillLatestChromeProcess(browser.process()?.pid).catch(console.error);
 
       if (floor) {
         deployedTime = new Date();
