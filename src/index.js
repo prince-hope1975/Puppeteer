@@ -62,6 +62,8 @@ app.get("/", (_, res) => {
 });
 app.get("/floor-price/:collection", async (req, res) => {
     let browser;
+    let _blacklist;
+    let _BLACKLIST_REF;
     try {
         // const timePassed = HasTimePassed(deployedTime);
         const _collection = req?.params?.collection;
@@ -69,6 +71,7 @@ app.get("/floor-price/:collection", async (req, res) => {
         const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
         const BLACKLIST_REF = db.ref(`blacklist/${collection}`);
         const [_floor, blacklist] = await readDataFromSnapShots_preserve(FLOOR_REF, BLACKLIST_REF);
+        _blacklist = blacklist;
         if (typeof blacklist == "string" || typeof blacklist == "number") {
             if (+blacklist > 3) {
                 res.status(404).json({ error: "Collection not found" });
@@ -102,6 +105,8 @@ app.get("/floor-price/:collection", async (req, res) => {
     }
     catch (error) {
         console.log("Failed to get floor");
+        // @ts-ignore
+        await _BLACKLIST_REF?.set(+(_blacklist || 0) + 1);
         console.error(error);
         // @ts-ignore
         await browser?.close()?.catch(console.error);

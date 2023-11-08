@@ -86,6 +86,8 @@ app.get("/", (_, res) => {
 
 app.get("/floor-price/:collection", async (req, res) => {
   let browser: Browser;
+  let _blacklist: number | string;
+  let _BLACKLIST_REF: any;
   try {
     // const timePassed = HasTimePassed(deployedTime);
     const _collection: string = req?.params?.collection;
@@ -96,6 +98,7 @@ app.get("/floor-price/:collection", async (req, res) => {
       FLOOR_REF,
       BLACKLIST_REF
     );
+    _blacklist = blacklist as any;
     if (typeof blacklist == "string" || typeof blacklist == "number") {
       if (+blacklist > 3) {
         res.status(404).json({ error: "Collection not found" });
@@ -127,6 +130,8 @@ app.get("/floor-price/:collection", async (req, res) => {
     }
   } catch (error: any) {
     console.log("Failed to get floor");
+    // @ts-ignore
+    await _BLACKLIST_REF?.set(+(_blacklist || 0) + 1);
     console.error(error);
     // @ts-ignore
     await browser?.close()?.catch(console.error);
