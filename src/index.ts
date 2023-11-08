@@ -96,12 +96,15 @@ app.get("/floor-price/:collection", async (req, res) => {
     if (_floor) {
       res.status(200).json({ data: _floor });
     } else {
+      console.log("Launching process")
       browser = await puppeteer.launch({
         headless: "new",
       });
+      console.log("Launched process", browser.process()?.pid);
       const floor = await getFloor_withBrowser(browser, collection);
+      console.log("Got floor")
       await browser?.close().catch(console.error);
-      await findAndKillLatestChromeProcess().catch(console.error);
+      await findAndKillLatestChromeProcess(browser.process()?.pid).catch(console.error);
 
       if (floor) {
         deployedTime = new Date();
@@ -113,6 +116,7 @@ app.get("/floor-price/:collection", async (req, res) => {
       }
     }
   } catch (error: any) {
+    console.log("Failed to get floor")
     console.error(error);
     // @ts-ignore
     await browser?.close()?.catch(console.error);
