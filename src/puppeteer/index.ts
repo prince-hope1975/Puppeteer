@@ -97,6 +97,7 @@ export const getFloor_withBrowser = async (
     await browser?.close();
     return [...links];
   } catch (error) {
+    console.log("Failed to fetch floor")
     console.error(error);
     await browser?.close().catch(console.error);
     await findAndKillAllActiveChromeProcesses().catch(console.error);

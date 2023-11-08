@@ -91,18 +91,27 @@ app.get("/floor-price/:collection", async (req, res) => {
     const _collection: string = req?.params?.collection;
     const collection = _collection.split(".").join("");
     const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
-    const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
-
+    const BLACKLIST_REF = db.ref(`blacklist/${collection}`);
+    const [_floor, blacklist] = await readDataFromSnapShots_preserve(
+      FLOOR_REF,
+      BLACKLIST_REF
+    );
+    if (typeof blacklist == "string" || typeof blacklist == "number") {
+      if (+blacklist > 3) {
+        res.status(404).json({ error: "Collection not found" });
+        return;
+      }
+    }
     if (_floor) {
       res.status(200).json({ data: _floor });
     } else {
-      console.log("Launching process")
+      console.log("Launching process");
       browser = await puppeteer.launch({
         headless: "new",
       });
       console.log("Launched process", browser.process()?.pid);
       const floor = await getFloor_withBrowser(browser, collection);
-      console.log("Got floor")
+      console.log("Got floor");
       await browser?.close().catch(console.error);
       // await findAndKillLatestChromeProcess(browser.process()?.pid).catch(console.error);
 
@@ -112,11 +121,12 @@ app.get("/floor-price/:collection", async (req, res) => {
         await FLOOR_REF.set(floor_price);
         res.json({ data: floor_price });
       } else {
+        await BLACKLIST_REF.set(+(blacklist || 0) + 1);
         res.status(404).json({ error: "Collection not found" });
       }
     }
   } catch (error: any) {
-    console.log("Failed to get floor")
+    console.log("Failed to get floor");
     console.error(error);
     // @ts-ignore
     await browser?.close()?.catch(console.error);

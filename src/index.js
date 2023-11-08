@@ -67,7 +67,14 @@ app.get("/floor-price/:collection", async (req, res) => {
         const _collection = req?.params?.collection;
         const collection = _collection.split(".").join("");
         const FLOOR_REF = db.ref(`floorPriceCollection/${collection}`);
-        const [_floor] = await readDataFromSnapShots_preserve(FLOOR_REF);
+        const BLACKLIST_REF = db.ref(`blacklist/${collection}`);
+        const [_floor, blacklist] = await readDataFromSnapShots_preserve(FLOOR_REF, BLACKLIST_REF);
+        if (typeof blacklist == "string" || typeof blacklist == "number") {
+            if (+blacklist > 3) {
+                res.status(404).json({ error: "Collection not found" });
+                return;
+            }
+        }
         if (_floor) {
             res.status(200).json({ data: _floor });
         }
@@ -88,6 +95,7 @@ app.get("/floor-price/:collection", async (req, res) => {
                 res.json({ data: floor_price });
             }
             else {
+                await BLACKLIST_REF.set(+(blacklist || 0) + 1);
                 res.status(404).json({ error: "Collection not found" });
             }
         }
