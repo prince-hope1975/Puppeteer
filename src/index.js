@@ -46,7 +46,7 @@ const limiter = rateLimit({
 // Apply the rate limiter to a specific endpoint
 app.use("/floor-price/:collection", limiter);
 // ! add "src" to run locally
-const _path = path.resolve(`./`);
+const _path = path.resolve(`./src`);
 app.use(express.static(`${_path}/swagger-ui-dist`));
 async function myMiddleware(req, res, next) {
     // Do something with the response
