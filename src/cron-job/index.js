@@ -62,7 +62,6 @@ export const Func = async () => {
         if (browser?.connected)
             await browser?.close();
         findAndKillAllActiveChromeProcesses();
-        process.exit(0);
     }
 };
 setInterval(() => {
