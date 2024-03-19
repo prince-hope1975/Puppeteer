@@ -2,7 +2,7 @@
 import puppeteer from "puppeteer";
 import { db, readDataFromSnapShots_preserve } from "../firebase_admin/index.js";
 import {
-  // findAndKillAllActiveChromeProcesses,
+  findAndKillAllActiveChromeProcesses,
   findAndKillLatestChromeProcess,
   getFloor_withBrowser,
 } from "../puppeteer/index.js";
@@ -59,15 +59,16 @@ export const Func = async () => {
         }
       }
     }
+    if (browser?.connected) await browser?.close();
   } catch (error) {
     console.error(error);
     if (browser?.connected) await browser?.close();
   } finally {
     if (browser?.connected) await browser?.close();
+    findAndKillAllActiveChromeProcesses()
+    process.exit(0)
   }
 };
-
-
 
 setInterval(() => {
   Func();

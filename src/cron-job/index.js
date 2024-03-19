@@ -1,9 +1,7 @@
 // import { z } from "zod";
 import puppeteer from "puppeteer";
 import { db, readDataFromSnapShots_preserve } from "../firebase_admin/index.js";
-import { 
-// findAndKillAllActiveChromeProcesses,
-findAndKillLatestChromeProcess, getFloor_withBrowser, } from "../puppeteer/index.js";
+import { findAndKillAllActiveChromeProcesses, findAndKillLatestChromeProcess, getFloor_withBrowser, } from "../puppeteer/index.js";
 import { parseLocaleNumber } from "../utils/formatter.js";
 export const Func = async () => {
     let browser = await puppeteer.launch({
@@ -52,6 +50,8 @@ export const Func = async () => {
                 }
             }
         }
+        if (browser?.connected)
+            await browser?.close();
     }
     catch (error) {
         console.error(error);
@@ -61,6 +61,8 @@ export const Func = async () => {
     finally {
         if (browser?.connected)
             await browser?.close();
+        findAndKillAllActiveChromeProcesses();
+        process.exit(0);
     }
 };
 setInterval(() => {
