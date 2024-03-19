@@ -45,8 +45,9 @@ export const getFloor = async (collection) => {
 };
 export const getFloor_withBrowser = async (browser, collection) => {
     z.string().parse(collection);
+    let page = undefined;
     try {
-        const page = await browser.newPage();
+        page = await browser.newPage();
         page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
         await page.goto(`https://www.nftexplorer.app/collection/${collection}/`, {
             timeout: 120_000,
@@ -55,11 +56,18 @@ export const getFloor_withBrowser = async (browser, collection) => {
         //   await page.type(".devsite-search-field", "Headless Chrom e");
         // console.log(await page.content())
         // Wait for suggest overlay to appear and click "show all results".
-        const allResultsSelector = "svg.text-primary";
+        // const allResultsSelector = "svg.text-primary";
         // const allResultsSelector = ".display-6";
         // await new Promise((resolve) => setTimeout(resolve, 10000));
-        await page.waitForSelector(allResultsSelector, { timeout: 240_000 });
-        const va = await page.$$(allResultsSelector);
+        const floorPriceXPath = '//*[text()="floor price"]';
+        await page.waitForXPath(floorPriceXPath, {
+            timeout: 240_000,
+        });
+        const [floorPriceElement] = await page.$x(floorPriceXPath);
+        await page.evaluate((element) => element.textContent, floorPriceElement);
+        // Extract the value next to the "floor price" text
+        const valueElement = await floorPriceElement.$("div");
+        const value = await page.evaluate((element) => element?.textContent, valueElement);
         // Extract the results from the page.
         const links = (await page.evaluate(() => {
             // @ts-ignore
@@ -68,18 +76,20 @@ export const getFloor_withBrowser = async (browser, collection) => {
                 console.log({ title });
                 return `${title}`;
             });
-        }, va)) || [];
+        })) || [];
         // Print all the files.
+        console.log({ links });
         console.log(links.join("\n"));
-        await browser?.close();
-        return [...links];
+        if (page != undefined)
+            await page?.close();
+        return { links, floor: value };
     }
     catch (error) {
         console.log("Failed to fetch floor");
         console.error(error);
-        await browser?.close().catch(console.error);
-        await findAndKillAllActiveChromeProcesses().catch(console.error);
-        return;
+        if (page != undefined)
+            await page?.close();
+        // await findAndKillAllActiveChromeProcesses().catch(console.error);
     }
 };
 export const verifyAsset = async (asset) => {
@@ -173,6 +183,3 @@ export async function findAndKillAllActiveChromeProcesses() {
         }
     }
 }
-// Call the function to find and kill all active Chrome processes
-await findAndKillAllActiveChromeProcesses();
-// Call the function to find and kill the latest Chrome process

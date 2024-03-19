@@ -1,4 +1,4 @@
-import puppeteer, { Browser } from "puppeteer";
+import puppeteer, { Browser, Page } from "puppeteer";
 import { z } from "zod";
 
 import { exec as _exec } from "child_process";
@@ -58,9 +58,9 @@ export const getFloor_withBrowser = async (
   collection: string
 ) => {
   z.string().parse(collection);
-
+  let page: Page = undefined as unknown as Page;
   try {
-    const page = await browser.newPage();
+    page = await browser.newPage();
 
     page.setUserAgent(
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
@@ -74,11 +74,22 @@ export const getFloor_withBrowser = async (
     // console.log(await page.content())
 
     // Wait for suggest overlay to appear and click "show all results".
-    const allResultsSelector = "svg.text-primary";
+    // const allResultsSelector = "svg.text-primary";
     // const allResultsSelector = ".display-6";
     // await new Promise((resolve) => setTimeout(resolve, 10000));
-    await page.waitForSelector(allResultsSelector, { timeout: 240_000 });
-    const va = await page.$$(allResultsSelector);
+    const floorPriceXPath = '//*[text()="floor price"]';
+    await page.waitForXPath(floorPriceXPath, {
+      timeout: 240_000,
+    });
+    const [floorPriceElement] = await page.$x(floorPriceXPath);
+    await page.evaluate((element) => element.textContent, floorPriceElement);
+
+    // Extract the value next to the "floor price" text
+    const valueElement = await floorPriceElement.$("div");
+    const value = await page.evaluate(
+      (element) => element?.textContent,
+      valueElement
+    );
 
     // Extract the results from the page.
     const links =
@@ -89,19 +100,19 @@ export const getFloor_withBrowser = async (
           console.log({ title });
           return `${title}`;
         });
-      }, va)) || [];
+      })) || [];
 
     // Print all the files.
+    console.log({ links });
     console.log(links.join("\n"));
 
-    await browser?.close();
-    return [...links];
+    if (page != undefined) await page?.close();
+    return { links, floor: value };
   } catch (error) {
-    console.log("Failed to fetch floor")
+    console.log("Failed to fetch floor");
     console.error(error);
-    await browser?.close().catch(console.error);
-    await findAndKillAllActiveChromeProcesses().catch(console.error);
-    return;
+    if (page != undefined) await page?.close();
+    // await findAndKillAllActiveChromeProcesses().catch(console.error);
   }
 };
 
@@ -183,6 +194,7 @@ export async function findAndKillLatestChromeProcess(pid?: number) {
 
 export async function findAndKillAllActiveChromeProcesses() {
   // Use shell commands to find all active Chrome processes
+
   const cmd = "pgrep 'chrome|chromium'";
   try {
     const ret = await exec(cmd);
@@ -209,8 +221,3 @@ export async function findAndKillAllActiveChromeProcesses() {
     }
   }
 }
-
-// Call the function to find and kill all active Chrome processes
-await findAndKillAllActiveChromeProcesses();
-
-// Call the function to find and kill the latest Chrome process

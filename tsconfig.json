@@ -17,9 +17,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "downlevelIteration": true
   },
   "include": [
-    "new_src"
-, "src"  ]
+    "new_src",
+    "src"
+  ]
 }
