@@ -103,7 +103,6 @@ export const getFloor_withBrowser = async (
       })) || [];
 
     // Print all the files.
-    console.log({ links });
     console.log(links.join("\n"));
 
     if (page != undefined) await page?.close();
@@ -112,6 +111,7 @@ export const getFloor_withBrowser = async (
     console.log("Failed to fetch floor");
     console.error(error);
     if (page != undefined) await page?.close();
+    return
     // await findAndKillAllActiveChromeProcesses().catch(console.error);
   }
 };

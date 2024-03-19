@@ -78,7 +78,6 @@ export const getFloor_withBrowser = async (browser, collection) => {
             });
         })) || [];
         // Print all the files.
-        console.log({ links });
         console.log(links.join("\n"));
         if (page != undefined)
             await page?.close();
@@ -89,6 +88,7 @@ export const getFloor_withBrowser = async (browser, collection) => {
         console.error(error);
         if (page != undefined)
             await page?.close();
+        return;
         // await findAndKillAllActiveChromeProcesses().catch(console.error);
     }
 };
