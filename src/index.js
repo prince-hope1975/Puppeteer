@@ -85,7 +85,7 @@ app.get("/floor-price/:collection", async (req, res) => {
             console.log("Launching process");
             browser = await puppeteer.launch({
                 headless: "new",
-                executablePath: "/usr/bin/chromium-browser",
+                // executablePath: "/usr/bin/chromium-browser",
             });
             console.log("Launched process", browser.process()?.pid);
             const floor = await getFloor_withBrowser(browser, collection);
