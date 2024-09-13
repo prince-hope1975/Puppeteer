@@ -38,14 +38,14 @@ export const Func = async () => {
                     const floor = await getFloor_withBrowser(browser, key);
                     console.log("Floor", floor);
                     if (!floor) {
-                        BLACKLIST_REF.child(key)?.set((blacklist?.[key] ?? 0) + 1);
+                        // BLACKLIST_REF.child(key)?.set((blacklist?.[key] ?? 0) + 1);
                         continue;
                     }
                     const floor_price = parseLocaleNumber(floor?.floor, "en-US");
                     await FLOOR_REF.child(key).set(floor_price);
                 }
                 catch (error) {
-                    BLACKLIST_REF.child(key)?.set((blacklist?.[key] ?? 0) + 1);
+                    // BLACKLIST_REF.child(key)?.set((blacklist?.[key] ?? 0) + 1);
                     console.error("Failed to set get floor");
                 }
             }
@@ -64,9 +64,16 @@ export const Func = async () => {
         findAndKillAllActiveChromeProcesses();
     }
 };
+function Blacklist() {
+    const BLACKLIST_REF = db.ref(`blacklist/`);
+}
 setInterval(() => {
     Func();
 }, 1000 * 60 * 120);
+
+// setInterval(() => {
+//     Blacklist();
+// }, 1000 * 60 * 120*4);
 // Func();
 // findAndKillAllActiveChromeProcesses()
 // process.on('exit', code => {
